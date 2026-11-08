@@ -1,0 +1,1138 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#293f3d">
+<title>STELLA BISTRO V15.5 — Encargos y jornada</title>
+<style>
+:root{--ink:#293c3a;--muted:#78847b;--cream:#f6f0e5;--paper:#fffaf1;--sage:#718f78;--sage2:#dce8d9;--coral:#d88978;--gold:#d7b56f;--wood:#b88761;--wood2:#8f6248;--line:#e7ddce;--shadow:0 12px 32px #3f49361a}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#e8e2d7;color:var(--ink);font-family:ui-rounded,"Trebuchet MS",system-ui,sans-serif}button,input,select{font:inherit}button{cursor:pointer;touch-action:manipulation;border:0}#app{max-width:1280px;min-height:100dvh;margin:auto;background:var(--cream);box-shadow:0 0 55px #37473b19;display:flex;flex-direction:column}
+header{height:76px;display:flex;justify-content:space-between;align-items:center;padding:12px 22px;background:#293f3d;color:#fff8e9;gap:12px}.brand{display:flex;align-items:center;gap:12px}.brandmark{width:48px;height:48px;border-radius:17px;background:#f1dfbb;color:#526c58;display:grid;place-items:center;font-size:26px;box-shadow:inset 0 -4px #dbc598}.brandname{font-size:18px;font-weight:1000;letter-spacing:2.2px}.tagline{font-size:9px;letter-spacing:2px;color:#d6dece;margin-top:3px}.stats{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.stat{padding:8px 12px;border-radius:12px;background:#ffffff13;border:1px solid #ffffff20;font-size:12px;font-weight:850;white-space:nowrap}.stat b{color:#f3d28f}
+#main{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:16px;padding:16px;flex:1;min-height:600px}#sceneWrap{min-width:0;display:flex;flex-direction:column;gap:9px}#scene{position:relative;min-height:610px;flex:1;overflow:hidden;border:1px solid #d7c9b4;border-radius:25px;background:linear-gradient(#dce9dc 0 17%,#f1e7d5 17% 100%);box-shadow:var(--shadow);isolation:isolate}
+#scene:before{content:"";position:absolute;inset:0 0 0 0;background:radial-gradient(ellipse at 15% 10%,#fff7d68c,transparent 28%),radial-gradient(ellipse at 88% 15%,#ffffff70,transparent 25%);pointer-events:none;z-index:-1}
+.window{position:absolute;top:4%;width:15%;height:16%;border:9px solid #af8664;border-radius:10px;background:linear-gradient(#b6d5d5 0 48%,#e7e9d3 49%);box-shadow:inset 0 0 0 4px #f7e8d1,0 4px #8d694f}.window:before{content:"";position:absolute;left:48%;top:0;bottom:0;width:5px;background:#f3e4cc}.window:after{content:"";position:absolute;top:48%;left:0;right:0;height:5px;background:#f3e4cc}.w1{left:7%}.w2{right:7%}.sign{position:absolute;top:5%;left:50%;transform:translateX(-50%);padding:9px 24px;border:4px solid #e4c58d;border-radius:11px 11px 17px 17px;background:#526c58;color:#fff4d9;box-shadow:0 5px 0 #3b5142;font-size:clamp(12px,1.6vw,19px);font-weight:1000;letter-spacing:2px;white-space:nowrap;max-width:57%;overflow:hidden;text-overflow:ellipsis;text-align:center}
+.shelf{position:absolute;top:23%;left:6%;width:25%;height:7%;border:5px solid #9a6e4c;border-radius:7px;background:#d6a875;box-shadow:0 5px #81583f;display:flex;justify-content:space-around;align-items:end;font-size:clamp(17px,2.5vw,26px)}.plant{position:absolute;font-size:clamp(28px,4vw,46px);filter:drop-shadow(0 3px 2px #594a3820)}.p1{left:2%;top:45%}.p2{right:2%;top:37%}.p3{right:5%;bottom:5%}
+#floor{position:absolute;inset:31% -8% -13% -8%;background:repeating-linear-gradient(0deg,transparent 0 42px,#fff3df85 43px 45px),repeating-linear-gradient(90deg,transparent 0 58px,#fff0db7a 59px 61px),linear-gradient(135deg,#c89c72,#b9825d);transform:perspective(780px) rotateX(9deg) scale(1.02);transform-origin:top center;border-top:12px solid #a77553;box-shadow:inset 0 12px 0 #e6c59a}
+.rug{position:absolute;left:36%;top:44%;width:47%;height:42%;background:#e9c4c0;border:8px solid #f5dfcf;border-radius:44% 44% 35% 35%;transform:rotate(-8deg);box-shadow:0 8px #c88f87;z-index:0}.rug:before{content:"";position:absolute;inset:12px;border:3px dashed #d28f83;border-radius:inherit}
+.kitchen{position:absolute;left:5%;top:33%;width:27%;height:24%;z-index:2}.kitchenTop{position:absolute;inset:0 0 24% 0;background:#9db3a0;border:7px solid #f2e5d0;border-radius:18px;box-shadow:0 8px 0 #647d6a;display:flex;align-items:center;justify-content:center;gap:12px;color:#405a4b}.stove{width:52%;height:68%;border-radius:15px;background:#647b75;border:6px solid #e8e3d2;display:grid;place-items:center;font-size:clamp(26px,4vw,42px);box-shadow:inset 0 -5px #465e58}.pot{font-size:clamp(27px,4vw,42px)}.kitchenLabel{position:absolute;bottom:0;left:8%;right:8%;height:22%;display:grid;place-items:center;background:#885f49;color:#fff4df;border:5px solid #d8ab76;border-radius:8px;font-size:12px;font-weight:1000;letter-spacing:2px;box-shadow:0 6px #684735}
+.counter{position:absolute;left:37%;top:31%;width:25%;height:12%;z-index:3;background:linear-gradient(#d9ae7e 0 65%,#9d6749 66%);border:7px solid #f1dfc4;border-radius:13px;box-shadow:0 9px #704d3b;display:grid;place-items:center;color:#fff9eb;font-size:12px;font-weight:1000;letter-spacing:1.5px;text-shadow:0 2px #735039}.counter:after{content:"🥐   ☕   🥧";position:absolute;top:-27px;left:0;right:0;text-align:center;font-size:22px;text-shadow:none}
+.table{position:absolute;z-index:2;width:15%;height:12%;border-radius:50%;background:#986b4c;border:8px solid #e8c18e;box-shadow:0 9px #714b37;display:grid;place-items:center;color:#fff4df;font-size:10px;font-weight:1000;letter-spacing:1px}.table:before,.table:after{content:"";position:absolute;width:24%;height:28%;border-radius:50%;background:#d6b889;border:3px solid #f2dfbd;top:-18%;}.table:before{left:5%}.table:after{right:5%}.t0{left:40%;top:54%}.t1{left:72%;top:49%}.t2{left:65%;top:76%}.t3{left:34%;top:79%}.chair{position:absolute;z-index:1;width:8%;height:6%;border-radius:12px;background:#859c84;border:4px solid #e9d7bd;box-shadow:0 4px #617962}.c0{left:43%;top:67%}.c1{left:76%;top:62%}.c2{left:68%;top:89%}.c3{left:37%;top:92%}
+#actors{position:absolute;inset:0;z-index:6;pointer-events:none}.actor{position:absolute;width:74px;height:92px;transform:translate(-50%,-62%);display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 5px 2px #493b2c2b)}.actor svg{width:100%;height:100%;overflow:visible}.actor.player{z-index:10;width:90px;height:110px}.actor.guest{width:72px;height:87px}.actor.staff{width:67px;height:81px;z-index:8;opacity:.98}.actor.staff .catname{bottom:-10px;font-size:9px;background:#f7f0dff2}.staffBubble{position:absolute;left:50%;top:-35px;transform:translateX(-50%);white-space:nowrap;background:#eaf3e8;border:1px solid #91ad91;border-radius:9px;padding:4px 6px;font-size:9px;font-weight:900;color:#3d5b48;box-shadow:0 3px 7px #493c2c20}.staff-cook svg{filter:drop-shadow(0 2px 2px #d99b5b55)}.staff-waiter svg{filter:drop-shadow(0 2px 2px #d8899155)}.staff-dishwasher svg{filter:drop-shadow(0 2px 2px #8ca9b855)}.actor.walking svg{animation:walkBob .23s infinite alternate}.actor.walking .tail{animation:tailMove .22s infinite alternate}.actor.idle .tail{animation:tailMove 2s ease-in-out infinite alternate}.actor.crouch svg{transform:translateY(8px) scale(.94)}.actor.cooking:not(.walking) .pawR{animation:stir .35s ease-in-out infinite alternate;transform-origin:74px 72px}.actor.cooking:not(.walking) .head{animation:headCook .8s ease-in-out infinite alternate;transform-origin:center}.actor.celebrate svg{animation:celebrate .25s ease-in-out infinite alternate}.catname{position:absolute;left:50%;bottom:-12px;transform:translateX(-50%);font-size:10px;font-weight:1000;white-space:nowrap;color:#3e5147;background:#fff9ebd9;border:1px solid #e8d7bd;border-radius:8px;padding:2px 7px}.bubble{position:absolute;left:50%;top:-42px;transform:translateX(-50%);background:#fffaf1;border:2px solid #e7d7c0;border-radius:12px;padding:5px 8px;min-width:78px;text-align:center;white-space:nowrap;font-size:10px;font-weight:900;color:#43534a;box-shadow:0 4px 9px #443b2b18}.bubble:after{content:"";position:absolute;left:50%;bottom:-7px;border-width:7px 6px 0;border-style:solid;border-color:#fffaf1 transparent transparent}.cookRing{position:absolute;left:50%;top:-43px;transform:translateX(-50%);width:45px;height:45px;border-radius:50%;background:conic-gradient(#df936e var(--pct),#e6dfd1 0);display:grid;place-items:center;border:2px solid #fff9ed;box-shadow:0 3px 9px #493c2c25}.cookRing:before{content:"";position:absolute;inset:5px;border-radius:50%;background:#fffaf1}.cookRing span{position:relative;font-size:11px;font-weight:1000;color:#48574b}.held{position:absolute;right:-14px;top:24px;font-size:23px;filter:drop-shadow(0 2px 1px white)}.steam{position:absolute;top:2px;left:52%;font-size:20px;animation:steam 1s ease-in-out infinite alternate}
+.actor.walking .legA{animation:stepA .2s infinite alternate;transform-box:fill-box;transform-origin:center}.actor.walking .legB{animation:stepB .2s infinite alternate;transform-box:fill-box;transform-origin:center}.actor.walking .pawR{animation:armSwing .2s infinite alternate;transform-box:fill-box;transform-origin:center}@keyframes stepA{from{transform:translateY(-1px) rotate(-10deg)}to{transform:translateY(2px) rotate(12deg)}}@keyframes stepB{from{transform:translateY(2px) rotate(12deg)}to{transform:translateY(-1px) rotate(-10deg)}}@keyframes armSwing{from{transform:rotate(10deg)}to{transform:rotate(-14deg)}}@keyframes walkBob{from{transform:translateY(0) rotate(-2deg)}to{transform:translateY(-5px) rotate(2deg)}}@keyframes tailMove{from{transform:rotate(-8deg)}to{transform:rotate(12deg)}}@keyframes stir{from{transform:rotate(-22deg)}to{transform:rotate(18deg)}}@keyframes headCook{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}@keyframes celebrate{from{transform:translateY(0) rotate(-5deg)}to{transform:translateY(-10px) rotate(5deg)}}@keyframes steam{from{opacity:.2;transform:translateY(5px)}to{opacity:.9;transform:translateY(-6px)}}
+#toast{position:absolute;z-index:20;left:50%;top:23%;transform:translateX(-50%);max-width:88%;background:#304a40;color:#fff8e9;border:2px solid #e6c68f;border-radius:13px;padding:10px 15px;text-align:center;font-size:13px;font-weight:850;box-shadow:0 7px 20px #2e3c3633;display:none}.sceneHint{position:absolute;left:14px;bottom:12px;z-index:8;background:#fffaf1e8;border:1px solid #e3d7c7;border-radius:9px;padding:5px 9px;font-size:10px;color:#718076;font-weight:800}
+#panel{display:flex;flex-direction:column;gap:11px;min-width:0}.card{background:var(--paper);border:1px solid var(--line);border-radius:19px;padding:14px;box-shadow:0 4px 13px #4d443512}.card h3{margin:0 0 10px;font-size:14px;letter-spacing:.2px}.muted{color:var(--muted);font-size:11px;line-height:1.45}.orders{display:flex;flex-direction:column;gap:7px;max-height:220px;overflow:auto}.order{display:grid;grid-template-columns:1fr auto;gap:3px 7px;text-align:left;width:100%;padding:9px 10px;border-radius:12px;background:#f3eee3;border:1px solid #e6dccd;color:var(--ink)}.order.selected{border:2px solid #88a287;background:#eaf1e7;padding:8px 9px;box-shadow:inset 4px 0 #719274}.order b{font-size:12px}.order small{font-size:10px;color:#7c877d}.order .dish{font-size:17px;grid-row:span 2;align-self:center}.order .patience{grid-column:1/-1;height:5px;border-radius:9px;background:#e4ddd0;overflow:hidden;margin-top:4px}.order .patience i{display:block;height:100%;background:#d78b75;border-radius:9px}.empty{padding:13px;text-align:center;color:#8b978c;font-size:11px;border:1px dashed #ddd2c2;border-radius:12px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}.btn{padding:11px 8px;border-radius:12px;background:#526f59;color:white;font-weight:950;font-size:11px;letter-spacing:.3px;box-shadow:0 3px #3b5743}.btn.warm{background:#c87e62;box-shadow:0 3px #9d604c}.btn.light{background:#e9e4d6;color:#43574a;box-shadow:0 3px #d3c9b7}.btn.gold{background:#c69e55;box-shadow:0 3px #977638}.btn:active{transform:translateY(2px);box-shadow:none}.btn:disabled{opacity:.43;cursor:not-allowed;transform:none;box-shadow:none}.movegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;max-width:190px;margin:auto}.movegrid button{height:39px;border-radius:10px;background:#e9e4d6;border:1px solid #d9cebd;color:#43574a;font-size:17px;font-weight:1000;touch-action:none}.movegrid button:active{background:#d3e1d0}.meter{height:8px;background:#e9e3d8;border-radius:10px;overflow:hidden;margin-top:8px}.meter span{display:block;height:100%;background:#7c9b7d;width:0;transition:width .12s linear}.infoLine{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:#69776d}.settingsRow{display:flex;gap:7px;align-items:center;margin-top:6px}.settingsRow select{min-width:0;flex:1;border:1px solid #ddd1bd;border-radius:9px;padding:8px;background:white;color:#43574a;font-size:11px}.mini{font-size:10px;color:#8b9488}.footer{padding:10px;text-align:center;color:#8b9387;font-size:10px;letter-spacing:1px}
+#overlay{position:fixed;inset:0;z-index:50;background:#263b37c9;display:grid;place-items:center;padding:16px;overflow:auto}.modal{width:min(500px,100%);padding:25px;background:#fffaf1;border:2px solid #e4c58d;border-radius:24px;text-align:center;box-shadow:0 25px 80px #17282055}.modal .logo{font-size:48px}.modal h1{margin:5px 0;color:#435c49;letter-spacing:3px;font-size:25px}.modal p{font-size:12px;line-height:1.5;color:#778276}.modal label{display:block;text-align:left;font-size:11px;font-weight:900;margin:10px 0 5px;color:#536751}.modal input,.modal select{width:100%;padding:11px;border:1px solid #ddd0bc;border-radius:10px;background:white;color:#384e42;font-size:14px}.customGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left}.palette{display:flex;gap:7px;flex-wrap:wrap}.fur{width:29px;height:29px;border:3px solid white;outline:1px solid #cfc5b7;border-radius:50%;padding:0}.fur[aria-pressed="true"]{outline:3px solid #76947a}.start{width:100%;margin-top:16px;padding:14px;border-radius:13px;background:#55785d;color:#fff8e9;font-weight:1000;letter-spacing:1px;box-shadow:0 4px #3c5a43}.start:active{transform:translateY(2px);box-shadow:none}.modalFooter{font-size:10px!important;color:#9a9b8e!important;margin-bottom:0}
+@media(max-width:900px){#main{grid-template-columns:minmax(0,1fr) 285px;padding:11px;gap:11px}#scene{min-height:565px}.card{padding:11px}}
+@media(max-width:700px){header{height:auto;min-height:68px;padding:9px 12px}.brandmark{width:40px;height:40px}.brandname{font-size:14px}.tagline{font-size:8px}.stats{gap:4px}.stat{padding:6px 7px;font-size:10px}#main{grid-template-columns:1fr;padding:8px;gap:8px}#scene{min-height:495px}.window{height:14%}.kitchen{top:32%}.card{padding:10px}.orders{max-height:160px}#panel{display:grid;grid-template-columns:1fr 1fr;align-items:start}.ordersCard{grid-column:1/-1}.controlsCard{grid-column:1/-1}.dayCard{grid-column:1/-1}.actions{grid-template-columns:repeat(4,1fr)}.btn{font-size:10px;padding:11px 4px}.actor{width:64px;height:80px}.actor.player{width:78px;height:95px}.actor.guest{width:62px;height:76px}.table{border-width:6px}}
+@media(max-width:430px){#scene{min-height:435px}.sign{padding:7px 12px}.shelf{height:6%;font-size:16px}.kitchen{height:22%}.table{width:17%;height:11%}.actor.player{width:70px;height:87px}.actor.guest{width:57px;height:70px}.counter{width:27%;left:37%;font-size:9px}.card h3{font-size:12px}.movegrid button{height:35px}.actions{grid-template-columns:1fr 1fr}.modal{padding:20px}}
+
+/* V7: interfaz horizontal y barra de tareas superior */
+#app{max-width:none;width:100%;min-height:100dvh}
+#taskbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:14px;padding:8px 16px;background:#fdf8ed;border-bottom:1px solid #e2d6c4;box-shadow:0 4px 14px #34463812}
+.taskActions{display:flex;gap:8px;flex:0 0 auto}.taskActions .btn{min-width:94px;padding:10px 12px;font-size:12px}
+#heldInfo{min-width:0;font-size:11px;color:#657367;font-weight:750;line-height:1.35}
+#main{min-height:0;grid-template-columns:minmax(0,1fr) 300px;gap:12px;padding:12px;flex:1}
+#sceneWrap{min-height:0}#scene{min-height:0;height:100%;min-height:460px}
+.moveOverlay{position:absolute;left:14px;bottom:14px;z-index:15;padding:7px;border-radius:17px;background:#fffaf1c9;border:1px solid #e4d7c5;backdrop-filter:blur(5px)}
+.movegrid{max-width:150px;gap:4px}.movegrid button{width:43px;height:39px;background:#fffaf0ed;border:1px solid #d7c9b5;box-shadow:0 3px #c9bba5;font-size:16px;touch-action:none;user-select:none;-webkit-user-select:none}
+#panel{min-height:0;align-content:start;overflow:auto;max-height:calc(100dvh - 150px)}
+.orders{max-height:230px;overflow:auto}
+@media(max-width:900px){#main{grid-template-columns:minmax(0,1fr) 260px;padding:8px;gap:8px}#scene{min-height:400px}.card{padding:9px}}
+@media(max-width:700px){
+ html,body{width:100%;height:100%;overflow:hidden}#app{height:100dvh;min-height:0;overflow:hidden}
+ header{height:54px;min-height:54px;padding:5px 9px;flex:0 0 54px}.brand{gap:7px}.brandmark{width:34px;height:34px;border-radius:11px;font-size:20px}.brandname{font-size:12px;letter-spacing:1px}.tagline{font-size:7px;letter-spacing:1px}.stats{gap:3px}.stat{padding:5px 6px;font-size:9px;border-radius:8px}
+ #taskbar{flex:0 0 auto;padding:6px 8px;gap:8px;min-height:48px}.taskActions{gap:5px}.taskActions .btn{min-width:0;padding:9px 9px;font-size:10px;border-radius:9px;white-space:nowrap}#heldInfo{font-size:9px;max-height:30px;overflow:hidden}
+ #main{flex:1;min-height:0;grid-template-columns:minmax(0,1fr) 205px;padding:6px;gap:6px;overflow:hidden}
+ #sceneWrap{min-height:0}#scene{height:100%;min-height:0;border-radius:15px}.window{height:14%}.kitchen{top:32%}.actor{width:58px;height:72px}.actor.player{width:72px;height:88px}.actor.guest{width:55px;height:68px}.table{border-width:5px}.sign{font-size:12px;padding:6px 10px}.counter{font-size:9px}
+ #panel{display:flex;flex-direction:column;gap:6px;overflow-y:auto;max-height:none;min-height:0}.card{padding:8px;border-radius:12px}.card h3{font-size:11px;margin-bottom:6px}.orders{max-height:calc(100dvh - 250px)}.order{padding:7px;font-size:10px}.muted,.mini{font-size:9px}.dayCard{display:block}
+ .moveOverlay{left:8px;bottom:8px;padding:5px}.movegrid{max-width:126px}.movegrid button{width:36px;height:33px;font-size:14px}
+ .footer{display:none}
+}
+@media(max-width:700px) and (orientation:portrait){
+ #app{display:none}body:after{content:'Gira tu teléfono para jugar STELLA BISTRO en horizontal';position:fixed;inset:0;display:grid;place-items:center;text-align:center;padding:35px;background:#293f3d;color:#fff8e9;font-size:20px;font-weight:900;letter-spacing:.5px}
+ body:before{content:'↻';position:fixed;top:34%;left:50%;transform:translateX(-50%);font-size:56px;color:#f1dfbb;z-index:2}
+}
+@media(max-height:420px) and (orientation:landscape){header{height:46px;min-height:46px;flex-basis:46px}.brandmark{width:30px;height:30px}.tagline{display:none}#taskbar{padding:4px 8px;min-height:40px}.taskActions .btn{padding:7px 8px}#main{padding:4px}#scene{min-height:0}.card{padding:6px}.orders{max-height:110px}}
+
+
+/* V6: zonas de trabajo, colisiones y tienda */
+.zoneTag{position:absolute;z-index:2;top:18%;padding:5px 10px;border-radius:999px;background:#fff8e8d9;border:1px solid #d8c5a6;font-size:clamp(9px,1.1vw,12px);font-weight:900;letter-spacing:.7px;pointer-events:none}
+.zoneKitchen{left:8%;color:#526c58}.zoneDining{right:8%;color:#a56e60}
+.actor.player.cooking{animation:chefCook .55s ease-in-out infinite alternate}
+.actor.player.cooking .legA,.actor.player.cooking .legB{animation:none!important}
+@keyframes chefCook{from{transform:translate(-50%,-50%) translateY(0)}to{transform:translate(-50%,-50%) translateY(2px)}}
+.shopBtn{background:#e6c98e!important;color:#514331!important}
+.shopModal{position:fixed;inset:0;z-index:120;background:#1f302caa;display:none;place-items:center;padding:14px}
+.shopPanel{width:min(520px,96vw);max-height:90dvh;overflow:auto;background:#fffaf1;border:3px solid #d8c49e;border-radius:22px;padding:18px;box-shadow:0 20px 60px #0005}
+.shopPanel h2{margin:0 0 8px}.shopItem{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #eadfce}.shopItem .desc{flex:1;font-size:13px}.shopItem button{background:#718f78;color:white;padding:9px 12px;border-radius:12px;font-weight:900}.shopClose{float:right;background:#eadfce;color:#37473b;padding:8px 12px;border-radius:10px}
+.dayBell{position:fixed;z-index:150;left:50%;top:18%;transform:translateX(-50%);padding:14px 22px;background:#29443f;color:#fff8e9;border:2px solid #e4c58d;border-radius:18px;font-weight:1000;display:none;box-shadow:0 10px 30px #0004;text-align:center}
+
+/* V6: cámara de mundo, colisionadores y cierre de servicio */
+#world{position:absolute;left:0;top:0;width:200%;height:200%;transform-origin:0 0;will-change:transform;}
+.zoneDivider{position:absolute;z-index:1;left:34%;top:27%;bottom:5%;border-left:2px dashed #fff2;pointer-events:none}
+.zoneDivider:after{content:"";position:absolute;left:-1px;top:0;height:100%;border-left:1px solid #516d5833}
+.actor.player.cooking{animation:chefCookV6 .6s ease-in-out infinite alternate}
+.actor.player.cooking svg{animation:none!important}
+.actor.player.cooking .tail{animation:tailMove 1.2s ease-in-out infinite alternate}
+.actor.player.cooking .pawR{animation:chefStir .48s ease-in-out infinite alternate}
+@keyframes chefCookV6{from{filter:drop-shadow(0 5px 2px #493b2c2b)}to{filter:drop-shadow(0 7px 3px #493b2c38)}}
+@keyframes chefStir{from{transform:translateY(0) rotate(-5deg)}to{transform:translateY(-4px) rotate(12deg)}}
+.shopItem button:disabled{opacity:.42;cursor:not-allowed}
+.shopSection{margin:14px 0 4px;color:#718f78;font-weight:1000;letter-spacing:.6px;font-size:12px;text-transform:uppercase}
+.dayBell{max-width:min(92vw,520px);animation:bellPop .35s ease-out}
+@keyframes bellPop{from{opacity:0;transform:translate(-50%,-18px) scale(.95)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
+
+
+/* V7: cocina ampliada, carta de menú y gestión de personal */
+.kitchen{left:3%;top:30%;width:38%;height:36%;z-index:3}
+.kitchenTop{inset:0 0 22% 0;padding:8px;gap:6px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch}
+.station{min-width:0;border:4px solid #e7dec9;border-radius:12px;background:linear-gradient(#819b88,#647c6d);color:#fff8e9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;box-shadow:inset 0 -4px #52695a;font-size:clamp(22px,3vw,38px)}
+.station small{font-size:clamp(7px,.8vw,10px);font-weight:1000;letter-spacing:.5px;white-space:nowrap}
+.kitchen .stove{width:auto;height:auto;border-radius:12px}
+.kitchenLabel{height:19%;font-size:clamp(8px,1vw,11px);letter-spacing:1px}
+.counter{left:47%;top:31%;width:21%;height:12%}
+.t0{left:47%;top:49%}.t1{left:81%;top:49%}.t2{left:81%;top:79%}.t3{left:47%;top:79%}
+.c0{left:50%;top:64%}.c1{left:84%;top:64%}.c2{left:84%;top:91%}.c3{left:50%;top:91%}
+.zoneKitchen{left:6%}.zoneDining{right:5%}.zoneDivider{left:43%}
+.menuModal{position:fixed;inset:0;z-index:130;background:#1f302cbb;display:none;place-items:center;padding:12px}
+.menuPanel{width:min(720px,97vw);max-height:92dvh;overflow:auto;background:#fffaf1;border:3px solid #d8c49e;border-radius:22px;padding:18px;box-shadow:0 20px 60px #0005}
+.menuPanel h2{margin:0 0 6px;color:#405b48}.customerRequest{background:#eaf0e5;border:1px solid #ceddc9;border-radius:12px;padding:12px;font-weight:900;color:#405b48}
+.menuCategory{margin:14px 0 6px;color:#718f78;font-size:11px;font-weight:1000;letter-spacing:1px;text-transform:uppercase}
+.menuGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.menuDish{min-width:0;border:1px solid #e2d6c4;background:#fff;border-radius:14px;padding:10px;text-align:left;color:#405046;display:flex;gap:8px;align-items:center}
+.menuDish .dishIcon{font-size:25px}.menuDish b{display:block;font-size:11px}.menuDish small{font-size:9px;color:#8a9488}
+.order.pending{border-style:dashed;background:#fffaf0}
+#taskbar .taskActions{overflow-x:auto;max-width:100%;scrollbar-width:thin}
+#taskbar .taskActions .btn{min-width:78px;padding:9px 10px}
+#crewInfo{line-height:1.55}
+.staffHire{border-top:1px solid #eadfce;padding-top:10px;margin-top:8px}
+.staffHire button{background:#718f78;color:white;padding:9px 12px;border-radius:11px;font-weight:900;white-space:nowrap}
+.staffHire button:disabled{opacity:.4}
+@media(max-width:700px){
+ .kitchen{left:2%;top:31%;width:41%;height:35%}
+ .kitchenTop{padding:4px;gap:3px}.station{border-width:2px;border-radius:8px}.station small{font-size:6px;letter-spacing:0}
+ .kitchenLabel{font-size:7px;letter-spacing:.3px}
+ .counter{left:47%;width:21%}
+ .t0{left:47%;top:49%}.t1{left:81%;top:49%}.t2{left:81%;top:79%}.t3{left:47%;top:79%}
+ .c0{left:50%;top:64%}.c1{left:84%;top:64%}.c2{left:84%;top:91%}.c3{left:50%;top:91%}
+ #taskbar{flex-wrap:wrap;gap:3px}
+ #taskbar .taskActions{width:100%;gap:4px}
+ #taskbar .taskActions .btn{flex:0 0 auto;min-width:68px;padding:7px 8px;font-size:9px}
+ #heldInfo{max-width:100%;width:100%;font-size:8px;max-height:22px}
+ .menuGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .menuPanel{padding:13px}
+}
+@media(max-width:430px){
+ .kitchen{width:42%;height:34%}
+ .kitchenTop{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .station{font-size:18px}.station small{font-size:6px}
+ .menuDish{padding:7px}.menuDish .dishIcon{font-size:20px}
+}
+
+
+/* V12: controles táctiles por mano dominante y tablero de encargos */
+#taskbar{position:relative;top:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:stretch;gap:6px;padding:8px 12px;background:#fffaf1;border-bottom:1px solid #e2d6c4;box-shadow:0 3px 12px #34463812;min-height:72px}
+.taskbarHead{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0}.taskbarHead>b{font-size:11px;letter-spacing:1px;color:#526f59;white-space:nowrap}.taskbarHead #heldInfo{font-size:10px;font-weight:750;text-align:right;max-width:55%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.taskList{display:flex;gap:7px;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;min-height:42px;padding:1px 1px 5px}.taskEmpty{align-self:center;color:#889287;font-size:10px;padding:7px 10px;border:1px dashed #ddd2c2;border-radius:10px;white-space:nowrap}
+.taskChip{flex:0 0 190px;min-width:0;text-align:left;padding:6px 9px;border-radius:11px;background:#f2eee4;border:1px solid #e4d8c5;color:#415449;display:flex;flex-direction:column;gap:2px;box-shadow:0 2px 0 #e0d3bd}
+.taskChip.active{background:#e8f1e5;border:2px solid #88a287;padding:5px 8px}.taskTop{display:flex;align-items:center;justify-content:space-between;gap:8px}.taskTop b{font-size:10px}.taskTop small{font-size:15px}.taskRequest{font-size:10px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.taskStatus{font-size:9px;color:#718074}.taskPatience{height:4px;background:#e3ddd2;border-radius:8px;overflow:hidden;margin-top:2px}.taskPatience i{display:block;height:100%;background:#d78b75;border-radius:8px}
+#scene .moveOverlay{position:absolute;z-index:16;bottom:12px;left:12px;right:auto;top:auto;padding:8px 10px 10px;border-radius:19px;background:#fffaf1d9;border:1px solid #e4d7c5;backdrop-filter:blur(7px);box-shadow:0 5px 16px #38473b28;display:flex;flex-direction:column;align-items:center;gap:5px;touch-action:none;user-select:none;-webkit-user-select:none}
+.controlCaption{font-size:9px;font-weight:1000;letter-spacing:1.2px;color:#6b806f}
+.joystickBase{width:124px;height:124px;border-radius:50%;position:relative;background:radial-gradient(circle at 35% 30%,#ffffff,#e5e0d5 68%,#cfc5b5);border:3px solid #c8baa5;box-shadow:inset 0 4px 10px #7c715b33,0 4px 0 #c6b9a4;touch-action:none}
+.joystickBase:before{content:"";position:absolute;inset:17%;border:1px dashed #a9ad9f;border-radius:50%;pointer-events:none}
+.joystickNub{position:absolute;left:50%;top:50%;width:48px;height:48px;border-radius:50%;transform:translate(-50%,-50%);background:linear-gradient(145deg,#8ca88d,#57785f);border:3px solid #f9f4e9;box-shadow:0 4px 8px #394a3b55,inset 0 2px 3px #ffffff75;pointer-events:none}
+#actionDock{position:absolute;z-index:16;right:12px;left:auto;bottom:12px;width:184px;padding:8px;border-radius:17px;background:#fffaf1dc;border:1px solid #e4d7c5;backdrop-filter:blur(7px);box-shadow:0 5px 16px #38473b28;display:flex;flex-direction:column;gap:7px}
+.actionControls{display:grid;grid-template-columns:1fr 1fr;gap:6px}.utilityControls{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+#actionDock .btn{min-width:0;padding:9px 5px;border-radius:10px;font-size:10px;line-height:1.15;white-space:nowrap;box-shadow:0 2px #3b5743}
+#actionDock .btn.light{box-shadow:0 2px #d3c9b7}#actionDock .btn:disabled{opacity:.38}
+#scene.hand-left .moveOverlay{left:auto;right:12px}#scene.hand-left #actionDock{left:12px;right:auto}
+#scene.hand-right .moveOverlay{left:12px;right:auto}#scene.hand-right #actionDock{right:12px;left:auto}
+#panel .ordersCard{display:none}.goalCard .meter{margin-top:9px}
+.handModal{position:fixed;inset:0;z-index:80;background:#263b37c9;display:none;place-items:center;padding:16px}.handPanel{width:min(390px,100%);padding:22px;background:#fffaf1;border:2px solid #e4c58d;border-radius:22px;box-shadow:0 25px 80px #17282055}.handPanel h2{margin:8px 0;color:#435c49;font-size:19px}.handPanel p{font-size:12px;line-height:1.45;color:#778276}.handPanel label{display:block;margin:14px 0 6px;font-size:11px;font-weight:900;color:#536751}.handPanel select{width:100%;padding:11px;border:1px solid #ddd0bc;border-radius:10px;background:white;color:#384e42;font-size:13px}
+@media(max-width:900px){#taskbar{padding:6px 9px;gap:4px}.taskChip{flex-basis:170px}#actionDock{width:166px;padding:7px}.joystickBase{width:112px;height:112px}}
+@media(max-width:700px){
+ #taskbar{min-height:68px;padding:5px 7px;gap:3px}.taskbarHead>b{font-size:9px}.taskbarHead #heldInfo{font-size:8px;max-width:62%}.taskList{min-height:39px;gap:5px;padding-bottom:4px}.taskChip{flex-basis:154px;padding:5px 7px}.taskChip.active{padding:4px 6px}.taskTop b,.taskRequest{font-size:9px}.taskStatus{font-size:8px}
+ #main{grid-template-columns:minmax(0,1fr) 190px;padding:5px;gap:5px}#scene{min-height:0;border-radius:13px}
+ #scene .moveOverlay{bottom:7px;left:7px;right:auto;padding:6px 7px 7px;gap:3px;border-radius:15px}.joystickBase{width:98px;height:98px}.joystickNub{width:40px;height:40px}.controlCaption{font-size:8px}
+ #actionDock{bottom:7px;right:7px;left:auto;width:142px;padding:6px;border-radius:14px;gap:5px}.actionControls,.utilityControls{gap:4px}#actionDock .btn{padding:7px 3px;font-size:8px;border-radius:8px;letter-spacing:0}
+ #scene.hand-left .moveOverlay{left:auto;right:7px}#scene.hand-left #actionDock{left:7px;right:auto}#scene.hand-right .moveOverlay{left:7px;right:auto}#scene.hand-right #actionDock{right:7px;left:auto}
+ #panel{gap:5px}.goalCard,.staffCard,.dayCard{padding:7px}.card h3{font-size:10px}.mini{font-size:8px}
+}
+@media(max-width:430px){.taskChip{flex-basis:140px}.joystickBase{width:88px;height:88px}.joystickNub{width:36px;height:36px}#actionDock{width:132px}#actionDock .btn{font-size:7px;padding:7px 2px}}
+@media(max-height:420px) and (orientation:landscape){#taskbar{min-height:58px;padding:4px 8px}.taskChip{flex-basis:145px}.joystickBase{width:82px;height:82px}.joystickNub{width:34px;height:34px}#actionDock{width:132px;bottom:5px;padding:5px}#actionDock .btn{padding:6px 2px;font-size:8px}.moveOverlay{bottom:5px}}
+
+
+/* V12: cocina por estaciones, ventanilla, despensa y mesas con aforo */
+.kitchenTop{grid-template-columns:repeat(4,minmax(0,1fr));}
+.station{position:relative;overflow:hidden;min-height:0}
+.station em{font-style:normal;font-size:clamp(6px,.65vw,9px);font-weight:950;opacity:.9;white-space:nowrap}
+.prepStation{background:linear-gradient(#b58d69,#8b684f)}
+.prepStation:after{content:"▤";position:absolute;bottom:5px;right:6px;color:#f5e4c7;font-size:18px;opacity:.8}
+.stove{background:linear-gradient(#718681,#4c625e)!important}
+.oven{background:linear-gradient(#9a7765,#755642)}
+.sink{background:linear-gradient(#7896a3,#56717d)}
+.passWindow{position:absolute;left:43%;top:43%;width:17%;height:9%;z-index:5;border:5px solid #e8d7bb;border-radius:11px;background:linear-gradient(#9a6d4e 0 35%,#5e7662 36%);box-shadow:0 6px #674936;color:#fff7e8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:clamp(8px,.9vw,12px);font-weight:1000;text-align:center}
+.passWindow span{font-size:clamp(6px,.65vw,9px);font-weight:800;color:#f8e7c5}
+#passTrays{display:flex;gap:2px;position:absolute;right:3px;bottom:-20px;font-size:14px;white-space:nowrap}
+.table small{display:block;font-size:clamp(6px,.6vw,8px);letter-spacing:.3px;color:#f1d9b7}.chair{width:5.2%;height:4.2%;border-radius:9px;background:#829a82;border:3px solid #ead8bc;box-shadow:0 3px #617962;z-index:1}
+.s00{left:48%;top:44%}.s01{left:59%;top:44%}
+.s10{left:82%;top:44%}.s11{left:93%;top:54%}.s12{left:82%;top:65%}.s13{left:75%;top:54%}
+.s20{left:82%;top:74%}.s21{left:93%;top:84%}.s22{left:82%;top:95%}.s23{left:75%;top:84%}
+.s30{left:48%;top:74%}.s31{left:59%;top:74%}
+.ingredientCard{max-height:170px;overflow:auto}
+#inventoryInfo{display:grid;grid-template-columns:1fr 1fr;gap:4px 8px;line-height:1.5}
+.inventoryItem{padding:3px 5px;border-radius:7px;background:#f1ecdf;white-space:nowrap}
+.taskTimers{font-size:8px;color:#786c5e;display:flex;justify-content:space-between;gap:5px}
+.taskStatus{font-weight:850}
+.actionControls{grid-template-columns:repeat(2,minmax(0,1fr))}
+#actionDock{width:190px}
+@media(max-width:700px){.kitchenTop{grid-template-columns:repeat(2,minmax(0,1fr))}.station em{font-size:6px}.passWindow{left:43%;top:43%;width:18%;height:9%;border-width:3px}.chair{border-width:2px}.s00{left:48%;top:44%}.s01{left:59%;top:44%}.s10{left:82%;top:44%}.s11{left:93%;top:54%}.s12{left:82%;top:65%}.s13{left:75%;top:54%}.s20{left:82%;top:74%}.s21{left:93%;top:84%}.s22{left:82%;top:95%}.s23{left:75%;top:84%}.s30{left:48%;top:74%}.s31{left:59%;top:74%}#actionDock{width:146px}}
+@media(max-width:430px){#actionDock{width:134px}.passWindow{font-size:6px}#passTrays{font-size:11px}}
+
+
+/* V15: mapa ampliado, barrio exterior y mobiliario con volumen. */
+#world{width:220%;height:220%}
+#floor{inset:31% -8% -13% -8%;background-color:#c7b99f}
+.zoneKitchen{left:7%;top:29%;color:#526c58}
+.zoneDining{right:6%;top:29%;color:#a56e60}
+.zoneService{left:49%;top:29%;color:#8a6542}
+.zoneOutside{left:40%;top:3%;color:#496d62}
+.zoneTag{z-index:7;pointer-events:none}
+.kitchen{left:2.5%;top:35%;width:43%;height:38%;z-index:4}
+.kitchenTop{position:absolute;inset:0 0 22% 0;padding:12px;gap:14px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));background:#a9bca7;border:9px solid #f3e7d3;border-radius:20px;box-shadow:0 10px 0 #647d6a;}
+.station{min-width:0;min-height:0;border:6px solid #f1e6d4;border-radius:16px;box-shadow:0 7px 0 #52695a,0 10px 15px #344a3a33;font-size:clamp(14px,1.3vw,20px);gap:7px}
+.station span{font-size:clamp(28px,3.1vw,48px)}
+.station small{font-size:clamp(10px,1vw,15px);letter-spacing:1px}
+.station em{font-size:clamp(8px,.8vw,12px)}
+.kitchenLabel{height:18%;left:5%;right:5%;font-size:clamp(9px,.9vw,13px);letter-spacing:1px;border-width:6px}
+.passWindow{left:48%;top:39%;width:17%;height:10%;font-size:clamp(10px,1vw,14px);border-width:6px;z-index:6}
+.counter{left:48%;top:53%;width:17%;height:10%;font-size:clamp(10px,.9vw,13px);z-index:5}
+.table{position:absolute;z-index:4;width:14%;height:9%;border-radius:17px 20px 15px 18px;background:repeating-linear-gradient(90deg,#c28a50 0 12px,#b77a42 13px 15px),linear-gradient(#d5a36c,#96613a);border:6px solid #ead0a4;box-shadow:0 9px 0 #68452f,0 13px 18px #3e2e2133;display:grid;place-items:center;color:#fff4df;font-size:clamp(9px,.9vw,13px);letter-spacing:1px;overflow:visible}
+.table:before{content:"";position:absolute;left:12%;right:12%;bottom:-17px;height:17px;background:linear-gradient(90deg,#745035 0 10%,transparent 10% 90%,#745035 90%);border-radius:3px;z-index:-1}
+.table:after{content:"";position:absolute;inset:8px;border:1px solid #e7c18f;border-radius:10px;box-shadow:inset 0 0 0 1px #80573744;pointer-events:none}
+.table small{display:block;font-size:clamp(7px,.7vw,10px);letter-spacing:.6px}
+.t0{left:61%;top:47%}.t1{left:80%;top:47%}.t2{left:80%;top:75%}.t3{left:61%;top:75%}
+.chair{width:4.8%;height:4.9%;z-index:3;border:4px solid #e8d4ae;border-radius:11px 11px 8px 8px;background:linear-gradient(90deg,#9b6d42,#c18a51 45%,#8d6039);box-shadow:0 5px 0 #5d412d, inset 0 0 0 3px #d8b27d}
+.chair:before{content:"";position:absolute;left:4px;right:4px;top:-10px;height:11px;border-radius:7px 7px 3px 3px;background:#99663e;border:2px solid #e6cca0;box-shadow:0 2px 0 #65432f}
+.s00{left:62%;top:41%}.s01{left:72%;top:41%}
+.s10{left:81%;top:41%}.s11{left:93%;top:50%}.s12{left:81%;top:60%}.s13{left:74%;top:50%}
+.s20{left:81%;top:69%}.s21{left:93%;top:78%}.s22{left:81%;top:88%}.s23{left:74%;top:78%}
+.s30{left:62%;top:69%}.s31{left:72%;top:69%}
+.counter{background:linear-gradient(#e0bd8e 0 58%,#946443 59%);border:6px solid #f0dfc2;border-radius:15px;box-shadow:0 8px #72513a}
+.dirtyReturn,.cleanStorage,.ingredientStorage{position:absolute;z-index:5;border:6px solid #f0e0c3;border-radius:14px;box-shadow:0 7px #73513a,0 11px 16px #42332629;font-weight:1000;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-shadow:0 1px 1px #0002}
+.dirtyReturn{left:48%;top:67%;width:17%;height:11%;background:linear-gradient(#9ab9b8,#608c8a);color:#fffaf0;font-size:clamp(9px,.9vw,13px)}
+.dirtyReturn span,.cleanStorage span{font-size:clamp(7px,.7vw,10px);font-weight:700}
+.cleanStorage{left:26%;top:24%;width:16%;height:7%;background:linear-gradient(#ead9b4,#b99966);color:#56452d;font-size:clamp(8px,.8vw,12px)}
+.ingredientStorage{left:2.5%;top:23.5%;width:43%;height:8%;z-index:6;flex-direction:row;background:#8d9f90;border-radius:12px;padding:5px;gap:12px;color:#f9f0dd}
+.fishFreezer,.milkFridge{height:100%;width:50%;display:flex;align-items:center;justify-content:center;gap:8px;border:4px solid #e7e3d4;border-radius:9px;background:linear-gradient(135deg,#b8d2d4,#72999c);color:#244b50;box-shadow:inset 0 0 0 3px #ffffff66;font-size:clamp(8px,.8vw,12px)}
+.milkFridge{background:linear-gradient(135deg,#e4edf0,#aac6cd);color:#355a60}
+.fishFreezer span,.milkFridge span{font-size:clamp(20px,2vw,30px)}
+.fishFreezer small,.milkFridge small{display:block;font-size:clamp(7px,.65vw,10px);font-weight:700}
+/* Small city block above the restaurant entrance. */
+.cityExterior{position:absolute;left:0;top:0;width:100%;height:30.5%;z-index:1;overflow:hidden;background:linear-gradient(#b9d4cf 0 42%,#d8d0b9 43% 100%)}
+.cityRoad{position:absolute;left:0;right:0;top:0;height:38%;background:linear-gradient(#666d69,#515b57);border-bottom:5px solid #d2c6a6}
+.roadLine{position:absolute;left:0;right:0;top:48%;border-top:3px dashed #eadcaa}
+.roadMark{position:absolute;top:34%;width:4%;height:9%;background:#eee1b5;border-radius:3px}.roadMark.m1{left:36%}.roadMark.m2{left:74%}
+.citySidewalk{position:absolute;top:38%;left:0;right:0;height:25%;background:repeating-linear-gradient(90deg,#ddcfb5 0 8%,#c9b99d 8.2% 8.5%);border-bottom:5px solid #a9987f}
+.cityBuilding{position:absolute;top:5%;width:14%;height:55%;border:6px solid #f3e4c6;border-radius:10px 10px 3px 3px;box-shadow:0 7px #70513c;background:linear-gradient(135deg,#b6a08a,#806d5a);display:flex;flex-direction:column;align-items:center;justify-content:end;padding:6px;color:#fff1d7;font-size:clamp(8px,.8vw,12px)}
+.cityBuilding b{background:#6b826d;padding:3px 7px;border-radius:5px}
+.cityBuilding .cityAwning{position:absolute;top:23%;left:-4px;right:-4px;height:18%;background:repeating-linear-gradient(90deg,#e9e0cb 0 15%,#b96f61 15% 30%);border:3px solid #fff1d7}
+.cityWindows{position:absolute;top:48%;left:13%;right:13%;height:30%;display:flex;gap:8px}.cityWindows i{flex:1;background:linear-gradient(135deg,#c7e2df,#6d9a9a);border:3px solid #f4dfbd;border-radius:5px}
+.bLeft{left:4%;background:linear-gradient(135deg,#b78b71,#8c5f50)}.bMid{left:24%;background:linear-gradient(135deg,#a8b99b,#6b846c)}.bRight{right:4%;background:linear-gradient(135deg,#c9ab78,#96734d)}
+.cityTree{position:absolute;top:28%;font-size:clamp(22px,3vw,42px);filter:drop-shadow(0 5px 2px #392c2228)}.treeA{left:18%}.treeB{right:20%}.cityLamp{position:absolute;left:46%;top:7%;font-size:clamp(20px,2vw,28px)}
+.streetLabel{position:absolute;left:43%;top:3%;font-size:clamp(8px,.8vw,12px);font-weight:1000;letter-spacing:2px;color:#38534d;background:#f3ead4d9;padding:4px 10px;border-radius:9px}
+.entryPath{position:absolute;left:60%;top:38%;width:9%;height:63%;background:repeating-linear-gradient(0deg,#d8c9ad 0 10px,#cbb899 10px 12px);border-left:4px solid #af9876;border-right:4px solid #af9876;clip-path:polygon(13% 0,87% 0,100% 100%,0 100%)}
+.entryDoor{position:absolute;left:61%;top:49%;width:7%;height:49%;border:7px solid #e9d8b7;border-bottom:0;border-radius:12px 12px 0 0;background:linear-gradient(90deg,#83583e 0 16%,#c08b5a 17% 83%,#765039 84%);box-shadow:0 0 0 4px #9d7757;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff2d6;font-size:clamp(7px,.7vw,10px);z-index:3}
+.doorGlass{position:absolute;inset:9% 16% 18%;border:3px solid #eddcb9;background:linear-gradient(#acd0d0aa,#6f9a96aa)}
+.entryDoor b,.doorBell{position:relative;z-index:1}.doorBell{position:absolute;right:-29px;top:-9px;font-size:clamp(15px,1.6vw,22px)}
+.entryDoor.doorbell-active{animation:doorSwing .28s ease-in-out 2 alternate;transform-origin:left center}
+@keyframes doorSwing{to{transform:perspective(90px) rotateY(-17deg)}}
+.dirtyDish{position:absolute;z-index:9;transform:translate(-50%,-50%);font-size:clamp(15px,1.5vw,22px);filter:drop-shadow(0 3px 2px #392c2233);pointer-events:none;animation:dishPulse 1.3s ease-in-out infinite alternate}
+@keyframes dishPulse{to{transform:translate(-50%,-50%) translateY(-3px)}}
+.held{position:absolute;right:-15px;top:20%;font-size:clamp(17px,2vw,27px);z-index:15;filter:drop-shadow(0 2px 2px #0004)}
+/* Animated actions beyond the existing walk and cooking animations. */
+.actor.player.action-order .pawR,.actor.player.action-pickup .pawR,.actor.player.action-serve .pawR,.actor.player.action-pickupDirty .pawR,.actor.player.action-putdown .pawR,.actor.player.action-wash .pawR{animation:reachAction .34s ease-in-out infinite alternate;transform-origin:74px 72px}
+.actor.player.action-order .head{animation:writeNod .28s ease-in-out infinite alternate;transform-origin:center}
+.actor.player.action-serve .pawR{animation:serveReach .3s ease-in-out infinite alternate}
+.actor.player.action-wash .pawR{animation:washMove .24s ease-in-out infinite alternate}
+@keyframes reachAction{to{transform:translate(7px,-7px) rotate(-23deg)}}
+@keyframes writeNod{to{transform:translateY(2px) rotate(3deg)}}
+@keyframes serveReach{to{transform:translate(10px,-4px) rotate(26deg)}}
+@keyframes washMove{to{transform:translate(-4px,6px) rotate(18deg)}}
+/* One contextual action control; utilities stay compact and the joystick remains on the opposite side. */
+#actionDock{width:190px;right:10px;bottom:10px;padding:8px;gap:7px;z-index:20}
+#actionDock .actionControls{display:none!important}
+.contextActionButton{width:100%;min-height:48px;border:3px solid #fff1d8;border-radius:15px;background:linear-gradient(#e0b45e,#b77d35);color:#fffaf0;font-weight:1000;font-size:clamp(10px,1vw,14px);letter-spacing:.5px;box-shadow:0 5px #77502d;text-shadow:0 1px 2px #674321;cursor:pointer}
+.contextActionButton:disabled{opacity:.62;filter:saturate(.55)}
+#actionDock .utilityControls{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+#actionDock .utilityControls .btn{font-size:clamp(9px,.85vw,12px);padding:7px 5px;min-height:32px}
+.moveOverlay{padding:6px 8px 8px;bottom:10px;left:10px;right:auto}
+.joystickBase{width:92px;height:92px}
+.sceneHint{max-width:40%;left:50%;transform:translateX(-50%);bottom:12px;text-align:center;z-index:8}
+.hand-left .moveOverlay{left:auto;right:10px}.hand-left #actionDock{right:auto;left:10px}
+.hand-right .moveOverlay{left:10px;right:auto}.hand-right #actionDock{right:10px;left:auto}
+@media(max-width:760px){
+ #world{width:220%;height:220%}
+ .kitchen{left:2.5%;top:35%;width:43%;height:38%}
+ .kitchenTop{padding:7px;gap:8px;border-width:6px}
+ .station{border-width:4px;border-radius:12px;box-shadow:0 5px 0 #52695a}
+ .station span{font-size:clamp(23px,3vw,36px)}
+ .station small{font-size:clamp(8px,.85vw,11px)}
+ .station em{font-size:clamp(7px,.65vw,9px)}
+ .kitchenLabel{border-width:4px}
+ .passWindow,.counter,.dirtyReturn{border-width:4px}
+ .table{border-width:4px;box-shadow:0 6px 0 #68452f,0 9px 12px #3e2e2133}
+ .chair{border-width:3px}
+ .ingredientStorage{border-width:4px;gap:5px}
+ .fishFreezer,.milkFridge{border-width:3px;gap:3px}
+ #actionDock{width:156px;right:6px;bottom:6px;padding:6px}
+ .contextActionButton{min-height:42px;font-size:10px}
+ #actionDock .utilityControls .btn{font-size:8px;min-height:28px;padding:5px 3px}
+ .joystickBase{width:78px;height:78px}
+ .moveOverlay{left:6px;bottom:6px;padding:5px}
+ .sceneHint{display:none}
+ .cityBuilding{border-width:4px}
+}
+
+
+/* V15 polish: óvalos de madera, sillas curvas y animación de comensales sentándose. */
+.table{
+ width:12.8%;height:8.5%;
+ border-radius:50% / 46%;
+ border:7px solid #f0d7ad;
+ background:
+  radial-gradient(ellipse at 50% 18%,#e4b77e 0 7%,transparent 8%),
+  repeating-linear-gradient(0deg,#c28a50 0 10px,#b77a42 11px 13px),
+  linear-gradient(145deg,#d5a36c,#96613a);
+ box-shadow:inset 0 2px 0 #f7dfb8,inset 0 -5px 0 #8a5935,0 10px 0 #68452f,0 14px 18px #3e2e2133;
+}
+.table:before{
+ left:17%;right:17%;bottom:-15px;height:18px;
+ background:linear-gradient(90deg,#6f482e,#9a6b42 18% 82%,#6f482e);
+ border:2px solid #d0a06a;border-top:0;
+ border-radius:0 0 45% 45%;z-index:-1;
+}
+.table:after{
+ inset:8px;border:2px solid #e8c391;border-radius:50%;
+ box-shadow:inset 0 0 0 1px #80573744;
+ background:
+  radial-gradient(circle at 24% 50%,#fff4df 0 5px,#d7b786 6px 8px,transparent 9px),
+  radial-gradient(circle at 76% 50%,#fff4df 0 5px,#d7b786 6px 8px,transparent 9px);
+ pointer-events:none;
+}
+.table small{position:relative;z-index:1;text-shadow:0 1px 2px #714b30}
+.chair{
+ width:4.6%;height:4.8%;
+ border:4px solid #e8d4ae;
+ border-radius:48% 48% 38% 38%;
+ background:radial-gradient(ellipse at 50% 44%,#d5ad79 0 42%,#b57b49 44% 72%,#865a36 74%);
+ box-shadow:0 5px 0 #5d412d,inset 0 2px 3px #f5d9a4;
+}
+.chair:before{
+ left:4px;right:4px;top:-12px;height:15px;
+ border-radius:50% 50% 28% 28%;
+ background:linear-gradient(90deg,#8e5e38,#bf8950 48%,#8e5e38);
+ border:2px solid #e6cca0;box-shadow:0 2px 0 #65432f;
+}
+.chair:after{
+ content:"";position:absolute;left:20%;right:20%;top:26%;height:48%;
+ border-radius:50%;background:radial-gradient(ellipse,#e0bf8d,#b8834f 75%);
+ box-shadow:inset 0 1px 2px #f8e5c1;pointer-events:none;
+}
+.actor.guest.seated svg{transform:translateY(5px) scale(.92)}
+.actor.guest.seated .legs{transform:translateY(-3px) scaleY(.78);transform-origin:60px 119px}
+.actor.guest.seated .head{animation:sitBreath 2.2s ease-in-out infinite alternate;transform-origin:60px 60px}
+@keyframes sitBreath{to{transform:translateY(1.5px)}}
+@media(max-width:760px){
+ .table{width:12.8%;height:8.5%;border-width:4px;box-shadow:inset 0 2px 0 #f7dfb8,inset 0 -3px 0 #8a5935,0 6px 0 #68452f,0 9px 12px #3e2e2133}
+ .chair{border-width:3px}
+ .chair:before{top:-9px;height:12px}
+}
+
+
+@media(max-height:420px) and (orientation:landscape){
+ #scene .moveOverlay{bottom:3px;padding:4px}
+ #actionDock{bottom:3px;padding:5px}
+ .joystickBase{width:74px;height:74px}
+ .joystickNub{width:32px;height:32px}
+ .contextActionButton{min-height:38px}
+}
+
+
+/* V15.1: aprovechar toda la altura disponible en teléfonos horizontales.
+   No modifica el tamaño lógico del mundo ni las coordenadas del jugador. */
+@media (orientation:landscape) and (max-height:520px){
+ html,body{width:100%;height:100%;min-height:0;overflow:hidden}
+ #app{width:100%;height:100dvh;min-height:0;max-width:none;overflow:hidden}
+ header{height:46px;min-height:46px;flex:0 0 46px;padding:4px 10px;gap:8px}
+ .brand{gap:7px}.brandmark{width:32px;height:32px;border-radius:10px;font-size:18px}
+ .brandname{font-size:12px;letter-spacing:1px}.tagline{display:none}
+ .stats{gap:4px}.stat{padding:5px 7px;font-size:9px;border-radius:8px}
+ #taskbar{flex:0 0 auto;min-height:0;padding:4px 8px;gap:3px}
+ .taskbarHead>b{font-size:9px}.taskbarHead #heldInfo{font-size:8px}
+ .taskList{min-height:34px;max-height:38px;gap:5px;padding:1px 1px 3px}
+ .taskChip{flex-basis:145px;padding:4px 6px;gap:1px}.taskChip.active{padding:3px 5px}
+ .taskTop b,.taskRequest{font-size:8px}.taskStatus{font-size:7px}.taskTop small{font-size:12px}
+ #main{flex:1 1 0;min-height:0;grid-template-columns:minmax(0,1fr) clamp(170px,25vw,230px);gap:6px;padding:5px;overflow:hidden}
+ #sceneWrap{height:100%;min-height:0;gap:0}
+ #scene{width:100%;height:100%;min-height:0;flex:1 1 0;border-radius:12px}
+ #panel{height:100%;min-height:0;max-height:100%;overflow-y:auto;gap:5px;align-content:start}
+ .card{padding:6px;border-radius:10px}.card h3{font-size:9px;margin-bottom:4px}
+ .mini,.muted{font-size:8px}.orders{max-height:90px}
+ .footer{display:none}
+ #scene .moveOverlay{bottom:5px;left:5px;padding:4px 5px;gap:2px}
+ .controlCaption{font-size:7px}.joystickBase{width:76px;height:76px}.joystickNub{width:32px;height:32px}
+ #actionDock{width:126px;right:5px;bottom:5px;padding:5px;gap:4px}
+ .contextActionButton{min-height:36px;font-size:9px;border-width:2px}
+ #actionDock .utilityControls .btn{min-height:25px;padding:4px 2px;font-size:7px}
+ .sceneHint{display:none}
+}
+
+/* V15.4: se conserva el panel corredizo de encargos; Jornada queda arriba y se ocultan Equipo/Vajilla y Despensa. */
+.goalCard[hidden]{display:none!important}
+.ordersToggle{flex:0 0 28px;width:28px;height:27px;border-radius:8px;background:#526c58;color:#fff8e9;font-size:19px;line-height:1;font-weight:1000;display:grid;place-items:center;box-shadow:inset 0 0 0 1px #ffffff35}
+.ordersToggle:focus-visible{outline:3px solid #e3bc70;outline-offset:2px}
+#taskbar.collapsed{min-height:0}
+#taskbar.collapsed .taskList{display:none}
+#taskbar.collapsed .taskbarHead{min-height:28px}
+#panel .crewCard{display:block}
+.crewList{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.crewList div{padding:7px 8px;border-radius:9px;background:#f1ecdf;color:#4d5e50;font-size:11px;font-weight:800;line-height:1.25}
+@media(max-width:700px){.crewList{gap:4px}.crewList div{font-size:9px;padding:6px}}
+@media(max-height:420px) and (orientation:landscape){.crewList{gap:3px}.crewList div{font-size:8px;padding:5px}.ordersToggle{width:24px;height:23px;flex-basis:24px;font-size:16px}}
+</style>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#29443f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="STELLA BISTRO">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+
+</head>
+<body><div id="app">
+<header><div class="brand"><div class="brandmark">🐾</div><div><div class="brandname">STELLA BISTRO</div><div class="tagline">UN PEQUEÑO CAFÉ, GRANDES AVENTURAS</div></div></div><div class="stats"><div class="stat">🪙 <b id="coins">120</b></div><div class="stat">⭐ <b id="rep">50</b></div><div class="stat">DÍA <b id="day">1</b></div><div class="stat">🍽 <b id="served">0</b></div></div></header>
+<nav id="taskbar" aria-label="Encargos activos"><div class="taskbarHead"><b>📋 ENCARGOS DEL BISTRÓ</b><span id="heldInfo">Abre el restaurante para recibir encargos.</span><button id="ordersToggle" class="ordersToggle" type="button" aria-expanded="true" aria-controls="taskList" title="Ocultar encargos">&lt;</button></div><div id="taskList" class="taskList"><div class="taskEmpty">Los encargos de tus clientes aparecerán aquí.</div></div><section class="card dayCard taskbarDayCard"><h3>🕒 Jornada</h3><div class="infoLine"><span id="timeLabel">Restaurante cerrado</span><b id="clock">00:00</b></div><div class="meter"><span id="dayBar"></span></div><div class="mini" style="margin-top:7px">Duración elegida: <b id="dayDuration">5 minutos</b></div></section></nav>
+<main id="main"><section id="sceneWrap"><div id="scene" aria-label="Restaurante de gatos">
+<div id="world"><div class="cityExterior" aria-label="Ciudad exterior">
+ <div class="cityRoad"><span class="roadLine"></span><span class="roadMark m1"></span><span class="roadMark m2"></span></div>
+ <div class="citySidewalk"></div>
+ <div class="cityBuilding bLeft"><div class="cityAwning"></div><div class="cityWindows"><i></i><i></i></div><b>CAFÉ LUNA</b></div>
+ <div class="cityBuilding bMid"><div class="cityAwning"></div><div class="cityWindows"><i></i><i></i></div><b>FLORERÍA</b></div>
+ <div class="cityBuilding bRight"><div class="cityAwning"></div><div class="cityWindows"><i></i><i></i></div><b>TIENDA</b></div>
+ <div class="cityTree treeA">🌳</div><div class="cityTree treeB">🌳</div><div class="cityLamp">💡</div>
+ <div class="streetLabel">BARRIO STELLA</div>
+ <div class="entryPath"></div>
+ <div class="entryDoor" id="entryDoor"><span class="doorGlass"></span><b>ENTRADA</b><span class="doorBell">🔔</span></div>
+ </div>
+ <div class="zoneTag zoneOutside">🏘️ CIUDAD</div><div class="zoneTag zoneService">🛎️ SERVICIO Y VAJILLA</div>
+ <div class="ingredientStorage" aria-label="Almacenamiento de ingredientes">
+  <div class="fishFreezer"><span>🐟</span><b>CONSERVADOR DE PESCADO</b><small>Proteína fresca</small></div>
+  <div class="milkFridge"><span>🥛</span><b>REFRIGERADOR</b><small>Leche y líquidos</small></div>
+ </div>
+ <div class="zoneTag zoneKitchen">👩‍🍳 ZONA DE COCINA</div><div class="zoneTag zoneDining">🐾 ZONA DE COMENSALES</div><div class="zoneDivider" aria-hidden="true"></div><div class="window w1"></div><div class="window w2"></div><div class="sign" id="restaurantName">LA CASA DE MICHI</div><div class="shelf">🪴　🍵　🫙　🧁</div><div class="plant p1">🪴</div><div class="plant p2">🌿</div><div class="plant p3">🌱</div><div id="floor"></div><div class="rug"></div>
+<div class="kitchen"><div class="kitchenTop"><div class="station prepStation" data-station="prep" title="Pica y prepara los ingredientes"><span>🔪</span><small>PREPARACIÓN</small><em>🪵 TABLAS</em></div><div class="station stove" data-station="stove" title="Cocina en sartén u olla"><span>🍳</span><small>ESTUFA</small><em>GUISOS</em></div><div class="station oven" data-station="oven" title="Hornea las recetas que lo necesitan"><span>♨️</span><small>HORNO</small><em>HORNEAR</em></div><div class="station sink" data-station="sink" title="Lava la vajilla"><span>🧽</span><small>LAVAVAJILLAS</small><em>VAJILLA</em></div></div><div class="kitchenLabel">COCINA · 4 ESTACIONES INDEPENDIENTES</div></div><div class="passWindow" data-station="pass"><b>🛎 VENTANILLA</b><span id="passCount">0 platillos</span><div id="passTrays"></div></div><div class="counter">MOSTRADOR</div>
+<div class="dirtyReturn" data-station="dirtyReturn"><b>🍽️ RETORNO DE PLATOS SUCIOS</b><span>Deja aquí la vajilla usada</span><em id="dirtyReturnCount">0 platos</em></div>
+<div class="cleanStorage" data-station="cleanStorage"><b>✨ VAJILLA LIMPIA</b><span>Almacenamiento</span></div>
+<div class="table t0">MESA 1<small>2 SILLAS</small></div><div class="table t1">MESA 2<small>4 SILLAS</small></div><div class="table t2">MESA 3<small>4 SILLAS</small></div><div class="table t3">MESA 4<small>2 SILLAS</small></div><div class="chair s00"></div><div class="chair s01"></div>
+<div class="chair s10"></div><div class="chair s11"></div><div class="chair s12"></div><div class="chair s13"></div>
+<div class="chair s20"></div><div class="chair s21"></div><div class="chair s22"></div><div class="chair s23"></div>
+<div class="chair s30"></div><div class="chair s31"></div>
+<div id="actors"></div></div><div class="moveOverlay" aria-label="Joystick de movimiento"><div class="controlCaption">MOVER</div><div class="joystickBase" id="joystickBase"><div class="joystickNub" id="joystickNub"></div></div></div><div id="actionDock" aria-label="Acciones del restaurante"><div class="actionControls" aria-hidden="true" style="display:none">
+<button class="btn gold" id="takeOrder">📝 Pedido</button><button class="btn warm" id="prepare">🔪 Picar</button><button class="btn warm" id="cook">🍳 Cocinar</button><button class="btn" id="pickup">🛎 Ventanilla</button><button class="btn" id="serve">🍽 Entregar</button><button class="btn light" id="wash">🧽 Lavar</button>
+</div><button class="contextActionButton" id="contextActionBtn" type="button">Ⓐ INTERACTUAR</button><div class="utilityControls"><button class="btn light" id="openShop">🛍 Tienda</button><button class="btn light" id="pause">Ⅱ Pausar</button><button class="btn gold" id="nextHelp">ⓘ Ayuda</button><button class="btn light" id="controlSettings">⚙️ Controles</button></div></div><div id="toast"></div><div class="sceneHint">Acércate al costado de cada estación o mesa y pulsa INTERACTUAR</div>
+</div></section>
+<aside id="panel">
+
+<!-- Datos internos conservados para no alterar la lógica existente; no se muestran en pantalla. -->
+<div hidden aria-hidden="true"><div id="crewInfo"></div><div id="inventoryInfo"></div></div>
+<section class="card goalCard" hidden><h3>🏆 Meta del día</h3><div id="goalInfo" class="mini">Entrega 5 platillos y gana 40 monedas extra.</div><div class="meter"><span id="goalBar"></span></div><div class="mini" style="margin-top:7px">✨ Racha de servicio: <b id="comboInfo">0 pedidos</b></div><div id="orders" class="orders" style="display:none"></div></section>
+</aside></main><div class="footer">STELLA PROGRAMMING · STELLA LUMINOSA STUDIOS · V15.5 · RESTAURANTE INTEGRAL</div></div>
+<div id="overlay"><div class="modal" id="modal"><div class="logo">🐱 ☕ 🥐</div><h1>STELLA BISTRO</h1><p>Prepara recetas, atiende a tus clientes felinos y convierte este pequeño café en su lugar favorito.</p>
+<label for="nameInput">Nombre de tu restaurante</label><input id="nameInput" maxlength="25" value="La Casa de Michi" placeholder="Escribe un nombre">
+<div class="customGrid"><div><label for="chefName">Nombre de tu chef</label><input id="chefName" maxlength="12" value="Michi" placeholder="Michi"></div><div><label for="hatSelect">Accesorio del chef</label><select id="hatSelect"><option value="hat">Gorro de chef</option><option value="bow">Moño</option><option value="flower">Flor</option><option value="none">Sin accesorio</option></select></div></div>
+<label>Color de pelaje</label><div class="palette" id="palette"><button class="fur" style="background:#fff0dc" data-fur="#fff0dc" aria-pressed="true" aria-label="Crema"></button><button class="fur" style="background:#c9c9c3" data-fur="#c9c9c3" aria-pressed="false" aria-label="Gris"></button><button class="fur" style="background:#d9965f" data-fur="#d9965f" aria-pressed="false" aria-label="Naranja"></button><button class="fur" style="background:#8b6c61" data-fur="#8b6c61" aria-pressed="false" aria-label="Café"></button><button class="fur" style="background:#282b31" data-fur="#282b31" aria-pressed="false" aria-label="Negro"></button><button class="fur" style="background:#e9b7c5" data-fur="#e9b7c5" aria-pressed="false" aria-label="Rosa"></button></div>
+<label for="handSelect">Mano dominante · distribución de controles</label><select id="handSelect"><option value="right" selected>Diestro/a · joystick a la izquierda</option><option value="left">Zurdo/a · joystick a la derecha</option></select>
+<label for="daySelect">Duración de cada jornada (mínimo 5 minutos)</label><select id="daySelect"><option value="300" selected>5 minutos · estándar</option><option value="420">7 minutos · extendido</option><option value="600">10 minutos · relajado</option></select>
+<button class="start" id="start">ABRIR MI RESTAURANTE</button><p class="modalFooter">Cada receta tiene un proceso: toma el pedido, pica los ingredientes en las tablas, cocina en estufa u horno, deja el plato en la ventanilla y entrégalo. Vigila los dos tiempos de espera.</p></div></div>
+
+<div class="menuModal" id="menuModal"><div class="menuPanel"><button class="shopClose" id="closeMenu">Cerrar ✕</button><h2>📖 Carta del restaurante</h2><p id="customerRequest" class="customerRequest"></p><div id="menuItems" class="menuGrid"></div></div></div>
+<div class="shopModal" id="shopModal"><div class="shopPanel">
+<button class="shopClose" id="closeShop">Cerrar ✕</button>
+<h2>🛍 Tienda de mejoras</h2><p>Invierte tus monedas para mejorar el restaurante.</p>
+<div id="shopItems"></div>
+</div></div>
+<div class="handModal" id="handModal"><div class="handPanel"><button class="shopClose" id="closeHand">Cerrar ✕</button><h2>⚙️ Configuración de controles</h2><p>El joystick queda en el lado contrario a tu mano dominante. Las acciones quedan del lado de tu mano hábil.</p><label for="handSelectLive">Mi mano dominante</label><select id="handSelectLive"><option value="right">Derecha · joystick a la izquierda</option><option value="left">Izquierda · joystick a la derecha</option></select><button class="start" id="saveHand">Aplicar distribución</button></div></div>
+<div class="dayBell" id="dayBell">🔔 ¡Últimos pedidos!<br><small>Ya no entran más comensales.</small></div>
+<script>
+(()=>{
+const $=id=>document.getElementById(id);
+const dishes=[
+{id:'soup',name:'Sopa de atún',icon:'🍲',time:7,price:22,category:'Entradas'},
+{id:'fish',name:'Pescadito a la plancha',icon:'🐟',time:9,price:27,category:'Platos fuertes'},
+{id:'cake',name:'Pastel de salmón',icon:'🍰',time:11,price:34,category:'Postres'},
+{id:'cookies',name:'Galletitas de pescado',icon:'🍪',time:6,price:19,category:'Postres'},
+{id:'milk',name:'Leche con croquetas',icon:'🥛',time:5,price:16,category:'Bebidas'},
+{id:'croquetas',name:'Croquetas crujientes',icon:'🍘',time:8,price:24,category:'Entradas'},
+{id:'ramen',name:'Ramen de pescado',icon:'🍜',time:12,price:38,category:'Platos fuertes'},
+{id:'sandwich',name:'Sándwich de sardina',icon:'🥪',time:8,price:26,category:'Platos fuertes'},
+{id:'pasta',name:'Pasta cremosa de salmón',icon:'🍝',time:13,price:42,category:'Platos fuertes'},
+{id:'waffle',name:'Waffle de atún',icon:'🧇',time:10,price:31,category:'Postres'},
+{id:'tea',name:'Té de hierbas',icon:'🫖',time:4,price:14,category:'Bebidas'},
+{id:'smoothie',name:'Batido de pescado',icon:'🥤',time:6,price:18,category:'Bebidas'}
+ ];
+const recipeData={
+soup:{station:'stove',prepTime:3,ingredients:[{key:'fish',qty:1},{key:'herbs',qty:1},{key:'water',qty:1}]},
+fish:{station:'stove',prepTime:3,ingredients:[{key:'fish',qty:1},{key:'oil',qty:1},{key:'herbs',qty:1}]},
+cake:{station:'oven',prepTime:4,ingredients:[{key:'flour',qty:2},{key:'egg',qty:1},{key:'milk',qty:1}]},
+cookies:{station:'oven',prepTime:3,ingredients:[{key:'fish',qty:1},{key:'flour',qty:1},{key:'egg',qty:1}]},
+milk:{station:'stove',prepTime:2,ingredients:[{key:'milk',qty:1},{key:'water',qty:1}]},
+croquetas:{station:'oven',prepTime:3,ingredients:[{key:'fish',qty:1},{key:'potato',qty:1},{key:'oil',qty:1}]},
+ramen:{station:'stove',prepTime:4,ingredients:[{key:'fish',qty:1},{key:'rice',qty:1},{key:'water',qty:1},{key:'herbs',qty:1}]},
+sandwich:{station:'stove',prepTime:3,ingredients:[{key:'fish',qty:1},{key:'bread',qty:2},{key:'herbs',qty:1}]},
+pasta:{station:'stove',prepTime:4,ingredients:[{key:'flour',qty:2},{key:'milk',qty:1},{key:'fish',qty:1}]},
+waffle:{station:'oven',prepTime:4,ingredients:[{key:'flour',qty:2},{key:'egg',qty:1},{key:'milk',qty:1}]},
+tea:{station:'stove',prepTime:2,ingredients:[{key:'herbs',qty:2},{key:'water',qty:1}]},
+smoothie:{station:'stove',prepTime:2,ingredients:[{key:'milk',qty:1},{key:'fish',qty:1},{key:'water',qty:1}]},
+};
+dishes.forEach(d=>Object.assign(d,recipeData[d.id]));
+const ingredientNames={fish:'🐟 Atún/pescado',flour:'🌾 Harina',milk:'🥛 Leche',egg:'🥚 Huevo',rice:'🍚 Arroz',herbs:'🌿 Hierbas',bread:'🍞 Pan',potato:'🥔 Papa',water:'💧 Agua',oil:'🫒 Aceite'};
+const roster=[
+{id:'luna',name:'Luna',fur:'#fff0dc',patch:'#e9b7c5',pattern:'spots',hat:'bow',personality:'Amable',patience:72},
+{id:'moka',name:'Moka',fur:'#8b6c61',patch:'#d8b58b',pattern:'mask',hat:'none',personality:'Tranquilo',patience:85},
+{id:'nube',name:'Nube',fur:'#c9c9c3',patch:'#92968f',pattern:'tabby',hat:'flower',personality:'Curiosa',patience:65},
+{id:'canela',name:'Canela',fur:'#d9965f',patch:'#f1c58c',pattern:'tabby',hat:'bow',personality:'Impaciente',patience:58},
+{id:'sombra',name:'Sombra',fur:'#282b31',patch:'#747983',pattern:'mask',hat:'none',personality:'Serio',patience:78},
+{id:'pompon',name:'Pompón',fur:'#e9b7c5',patch:'#fff0dc',pattern:'spots',hat:'flower',personality:'Juguetón',patience:70},
+{id:'toto',name:'Toto',fur:'#f0ddb5',patch:'#9a795f',pattern:'tabby',hat:'cap',personality:'Glotón',patience:62},
+{id:'miel',name:'Miel',fur:'#eab66e',patch:'#fff0dc',pattern:'spots',hat:'none',personality:'Sociable',patience:80},
+{id:'pixel',name:'Pixel',fur:'#aab9bc',patch:'#647f83',pattern:'mask',hat:'cap',personality:'Curioso',patience:74},
+{id:'oliva',name:'Oliva',fur:'#a8b89d',patch:'#edf0d8',pattern:'tabby',hat:'flower',personality:'Paciente',patience:92}
+];
+const tables=[
+{id:'T1',capacity:2,seats:[{x:64,y:45},{x:74,y:45}]},
+{id:'T2',capacity:4,seats:[{x:83,y:45},{x:92,y:54},{x:83,y:63},{x:75,y:54}]},
+{id:'T3',capacity:4,seats:[{x:83,y:74},{x:92,y:83},{x:83,y:92},{x:75,y:83}]},
+{id:'T4',capacity:2,seats:[{x:64,y:74},{x:74,y:74}]}
+];
+const state={coins:120,rep:50,day:1,served:0,missed:0,playing:false,paused:false,elapsed:0,dayLength:300,spawnClock:0,cookRemaining:0,cookTotal:0,cooking:false,prepping:false,prepRemaining:0,prepTotal:0,prepTargetId:null,preppedOrders:[],cookingDish:null,cookTargetId:null,plate:null,selectedId:null,orderingGuestId:null,guests:[],speed:22,x:45,y:69,move:{x:0,y:0},joystick:{x:0,y:0},keys:{},dominantHand:"right",goalTarget:5,goalReward:40,combo:0,bestCombo:0,lastServeAt:0,settingsWasPaused:false,last:0,chef:{name:'Michi',fur:'#fff0dc',hat:'hat'},restaurant:'La Casa de Michi',toastTimer:null,spawnIndex:0,kitchenLevel:0,prepLevel:0,patienceLevel:0,speedLevel:0,staff:{waiter:0,cook:0,dishwasher:0},staffBots:[],readyPlates:[],botCookingIds:[],cleanPlates:6,dirtyPlates:0,dishwashClock:0,closing:false,closingNotified:false,dayFinishing:false,unlockedCategories:['Entradas','Bebidas'],inventory:{fish:16,flour:12,milk:12,egg:10,rice:10,herbs:16,bread:10,potato:10,water:18,oil:12},inventoryReserve:0,actionLock:false,dirtyItems:[],dirtyCarry:null,dirtySequence:0};
+function applyHand(){const scene=$("scene");if(!scene)return;scene.classList.toggle("hand-left",state.dominantHand==="left");scene.classList.toggle("hand-right",state.dominantHand!=="left");}
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function catSvg(c){const fur=c.fur||'#fff0dc',patch=c.patch||'#d6b8a1';let markings='';if(c.pattern==='tabby')markings='<path d="M51 39 L56 45 M60 36 L60 44 M69 39 L64 45" stroke="#806c5b" stroke-width="3" stroke-linecap="round"/><path d="M34 60 L42 63 M34 67 L42 69 M86 60 L78 63 M86 67 L78 69" stroke="#806c5b" stroke-width="2" stroke-linecap="round"/>';if(c.pattern==='mask')markings=`<path d="M31 47 Q48 40 59 51 Q70 40 89 47 L87 61 Q73 67 60 58 Q47 67 33 61Z" fill="${patch}" opacity=".82"/>`;if(c.pattern==='spots')markings=`<circle cx="38" cy="43" r="6" fill="${patch}"/><circle cx="81" cy="41" r="5" fill="${patch}"/>`;let hat='';if(c.hat==='hat'||c.hat==='cap')hat=`<path d="M35 31 Q60 4 85 31 L83 39 Q60 33 37 39Z" fill="${c.hat==='cap'?'#8ba18a':'#fff6e8'}" stroke="#8e7764" stroke-width="2.5"/><path d="M32 39 Q60 32 88 39" fill="none" stroke="#8e7764" stroke-width="3" stroke-linecap="round"/>`;if(c.hat==='bow')hat='<path d="M48 24 Q32 10 30 28 Q34 39 50 32 M52 31 Q70 10 78 26 Q74 39 53 35" fill="#d88991" stroke="#99666a" stroke-width="2.5"/><circle cx="51" cy="30" r="4" fill="#f4d59a"/>';if(c.hat==='flower')hat='<g transform="translate(77 24)"><circle cx="0" cy="-7" r="6" fill="#e9a6af"/><circle cx="7" cy="-1" r="6" fill="#e9a6af"/><circle cx="3" cy="7" r="6" fill="#e9a6af"/><circle cx="-5" cy="5" r="6" fill="#e9a6af"/><circle cx="-7" cy="-2" r="6" fill="#e9a6af"/><circle r="4" fill="#e8c36f"/></g>';
+return `<svg viewBox="0 0 120 130" role="img" aria-label="Gato ${esc(c.name||'chef')}"><g class="tail"><path d="M82 91 Q111 100 105 73 Q101 61 91 69" fill="none" stroke="${fur}" stroke-width="11" stroke-linecap="round"/><path d="M82 91 Q111 100 105 73 Q101 61 91 69" fill="none" stroke="#806c5b" stroke-opacity=".2" stroke-width="2" stroke-linecap="round"/></g><ellipse cx="60" cy="93" rx="31" ry="29" fill="${fur}" stroke="#897766" stroke-width="2.5"/><path d="M38 89 Q60 78 82 89 L82 119 Q60 131 38 117Z" fill="#8ea78b" stroke="#607960" stroke-width="2.3"/><path d="M44 94 Q60 87 76 94" fill="none" stroke="#f6ead7" stroke-width="3"/><path d="M47 108 L60 118 L73 108" fill="none" stroke="#e8d6b8" stroke-width="2.5"/><g class="legs"><ellipse class="legA" cx="47" cy="119" rx="9" ry="7" fill="${fur}" stroke="#897766" stroke-width="2"/><ellipse class="legB" cx="72" cy="119" rx="9" ry="7" fill="${fur}" stroke="#897766" stroke-width="2"/></g><g class="head"><path d="M28 52 L31 20 Q33 12 42 23 L52 33 Q60 29 68 33 L79 21 Q87 14 90 25 L92 54 Q95 80 60 83 Q25 80 28 52Z" fill="${fur}" stroke="#897766" stroke-width="2.7"/><path d="M36 29 L39 24 L48 35Z" fill="${patch}"/><path d="M73 35 L82 24 L84 31Z" fill="${patch}"/>${markings}<ellipse cx="47" cy="53" rx="4" ry="6" fill="#34443d"/><ellipse cx="73" cy="53" rx="4" ry="6" fill="#34443d"/><circle cx="48" cy="51" r="1.5" fill="white"/><circle cx="74" cy="51" r="1.5" fill="white"/><path d="M55 64 Q60 69 65 64 Q60 60 55 64" fill="#d88991"/><path d="M60 68 Q55 76 49 71 M60 68 Q65 76 71 71" fill="none" stroke="#78665b" stroke-width="2" stroke-linecap="round"/><path d="M36 64 L20 61 M37 69 L22 72 M84 64 L100 61 M83 69 L98 72" stroke="#8e7c6b" stroke-width="1.5" stroke-linecap="round"/></g><g class="pawR"><ellipse cx="82" cy="83" rx="9" ry="13" transform="rotate(-28 82 83)" fill="${fur}" stroke="#897766" stroke-width="2"/><path d="M77 84 L83 86" stroke="#897766" stroke-width="1.5"/></g>${hat}</svg>`;}
+function toast(msg){$('toast').textContent=msg;$('toast').style.display='block';clearTimeout(state.toastTimer);state.toastTimer=setTimeout(()=>$('toast').style.display='none',2400)}
+let collisionRects=[];
+function refreshColliders(){
+ const world=$('world');if(!world)return;
+ const w=Math.max(1,world.clientWidth),h=Math.max(1,world.clientHeight);
+ collisionRects=[...world.querySelectorAll('.passWindow,.counter,.dirtyReturn,.cleanStorage,.table,.chair,.plant,.cityBuilding')].map(el=>({
+  left:el.offsetLeft/w*100,top:el.offsetTop/h*100,
+  right:(el.offsetLeft+el.offsetWidth)/w*100,bottom:(el.offsetTop+el.offsetHeight)/h*100,
+  kind:el.className||el.tagName
+ }));
+}
+function elementWorldBox(el){
+ const world=$('world');if(!world||!el)return null;
+ const wr=world.getBoundingClientRect(),r=el.getBoundingClientRect();
+ const w=Math.max(1,world.clientWidth),h=Math.max(1,world.clientHeight);
+ return {left:(r.left-wr.left)/w*100,top:(r.top-wr.top)/h*100,right:(r.right-wr.left)/w*100,bottom:(r.bottom-wr.top)/h*100};
+}
+function nearElement(el,margin=5){const b=elementWorldBox(el);if(!b)return false;return state.x>=b.left-margin&&state.x<=b.right+margin&&state.y>=b.top-margin&&state.y<=b.bottom+margin}
+function nearStation(name){const el=$('world')?.querySelector(`[data-station="${name}"]`);return nearElement(el,name==='pass'?4.6:4.2)}
+function nearKitchen(){return ['prep','stove','oven','sink','pass'].some(nearStation)}
+function stationPoint(name){const el=$('world')?.querySelector(`[data-station="${name}"]`),b=elementWorldBox(el);return b?{x:(b.left+b.right)/2,y:(b.top+b.bottom)/2}:{x:22,y:45}}
+function canUseStation(name){if(nearStation(name))return true;const labels={prep:'las tablas de preparación',stove:'la estufa',oven:'el horno',sink:'el lavavajillas',pass:'la ventanilla'};toast(`Acércate a ${labels[name]||'la estación'} para usarla.`);return false}
+function availableDishes(){return dishes.filter(d=>state.unlockedCategories.includes(d.category))}
+function ingredientLabel(key){return ingredientNames[key]||key}
+function hasIngredients(dish){return dish.ingredients.every(i=>(state.inventory[i.key]||0)>=i.qty)}
+function consumeIngredients(dish){if(!hasIngredients(dish))return false;dish.ingredients.forEach(i=>state.inventory[i.key]-=i.qty);return true}
+function inventoryHTML(){return Object.keys(ingredientNames).map(k=>`<span class="inventoryItem">${ingredientNames[k]}: <b>${state.inventory[k]||0}</b></span>`).join('')}
+function updatePass(){const count=state.readyPlates.length;$('passCount').textContent=`${count} ${count===1?'platillo':'platillos'}`;if($('dirtyReturnCount'))$('dirtyReturnCount').textContent=`${state.dirtyPlates} platos`;$('passTrays').textContent=state.readyPlates.slice(0,4).map(p=>p.dish.icon).join(' ')}
+function blocked(x,y){
+ // Hitbox del chef: las cajas se obtienen del mobiliario real de la escena.
+ const radiusX=3.25,radiusY=3.0;
+ if(x<3.4||x>97.2||y<7.0||y>96.8)return true;
+ for(const r of collisionRects){
+  const inset=.55;
+  if(x+radiusX>r.left+inset&&x-radiusX<r.right-inset&&
+     y+radiusY>r.top+inset&&y-radiusY<r.bottom-inset)return true;
+ }
+ // Los comensales también ocupan espacio; no se pueden atravesar.
+ for(const g of state.guests){
+  if(Math.abs(x-g.x)<3.1+radiusX*.35&&Math.abs(y-g.y)<3.0+radiusY*.35)return true;
+ }
+ return false;
+}
+function guestDistance(g){return Math.hypot((state.x-g.x)*.85,state.y-g.y)}
+function selectedGuest(){return state.guests.find(g=>g.id===state.selectedId)}
+function renderActors(){
+ let html='';
+ state.guests.forEach(g=>{
+  const selected=state.selectedId===g.id;
+  const bubble=g.ordered?`${g.dish.icon} ${selected?'¡GRACIAS!':'PEDIDO'}`:(selected?'📝 ¿PEDIDO?':'❔');
+  html+=`<div class="actor guest ${g.walking?'walking':(g.seated?'seated':'idle')}" data-guest-id="${esc(g.id)}" style="left:${g.x}%;top:${g.y}%">${catSvg(g)}<span class="bubble">${g.seated===false?'🚶':bubble}</span><span class="catname">${esc(g.name)}</span></div>`;
+ });
+ state.dirtyItems.forEach(d=>{html+=`<div class="dirtyDish" style="left:${d.x}%;top:${d.y+2}%">🍽️</div>`});
+ const staffDefs=[
+  {key:'cook',label:'Cocinero',emoji:'🍳',fur:'#d9965f',patch:'#f1c58c',pattern:'tabby',hat:'hat',task:'Cocina'},
+  {key:'dishwasher',label:'Lavaplatos',emoji:'🧽',fur:'#c9c9c3',patch:'#92968f',pattern:'mask',hat:'flower',task:'Lava'},
+  {key:'waiter',label:'Mesero',emoji:'🍽️',fur:'#e9b7c5',patch:'#fff0dc',pattern:'spots',hat:'bow',task:'Sirve'}
+ ];
+ staffDefs.forEach(def=>state.staffBots.filter(b=>b.role===def.key).forEach((bot,i)=>{
+  const helper={name:`${def.label} ${i+1}`,fur:def.fur,patch:def.patch,pattern:def.pattern,hat:def.hat};
+  html+=`<div class="actor staff ${bot.moving?'walking':'idle'} staff-${def.key}" style="left:${bot.x}%;top:${bot.y}%">${catSvg(helper)}<span class="staffBubble">${bot.carrying||def.emoji} ${esc(bot.status||def.task)}</span><span class="catname">${esc(helper.name)}</span></div>`;
+ }));
+ const moving=!state.cooking&&!state.prepping&&!!(state.move.x||state.move.y);
+ let status=(state.cooking||state.prepping)?'cooking':(moving?'walking':'idle');
+ if(state.playerAction==='crouch')status+=' crouch';
+ let workingRing=state.cooking||state.prepping;
+ let left=state.prepping?state.prepRemaining:state.cookRemaining,total=state.prepping?state.prepTotal:state.cookTotal;
+ let ring=workingRing?`<div class="cookRing" id="cookRing" style="--pct:${Math.max(0,left/Math.max(1,total)*100)}%"><span>${Math.ceil(left)}s</span></div><span class="steam">${state.prepping?'🔪':'♨'}</span>`:'';
+ let held=state.plate?`<span class="held">${state.plate.icon}</span>`:(state.dirtyCarry?`<span class="held">🍽️</span>`:'');
+ html+=`<div class="actor player ${status}" id="playerActor" style="left:${state.x}%;top:${state.y}%">${catSvg(state.chef)}${ring}${held}<span class="catname">${esc(state.chef.name)}</span></div>`;
+ $('actors').innerHTML=html;
+}
+function syncStaffBots(){
+ const prep=stationPoint('prep'),stove=stationPoint('stove'),oven=stationPoint('oven'),sink=stationPoint('sink'),pass=stationPoint('pass');
+ const defs=[
+  {role:'cook',start:prep,station:prep},
+  {role:'waiter',start:pass,station:pass},
+  {role:'dishwasher',start:sink,station:sink}
+ ];
+ defs.forEach(d=>{const wanted=state.staff[d.role]||0;let list=state.staffBots.filter(b=>b.role===d.role);
+  while(list.length<wanted){const b={id:d.role+'-'+(list.length+1),role:d.role,x:d.start.x+(list.length*.8),y:d.start.y+(list.length*.8),target:null,timer:0,status:'Disponible',moving:false,station:d.station,phase:'idle',carrying:null};state.staffBots.push(b);list.push(b)}
+  while(list.length>wanted){const gone=list.pop();state.staffBots=state.staffBots.filter(b=>b!==gone)}
+ });
+}
+function moveBot(bot,tx,ty,dt,speed=13){
+ const dx=tx-bot.x,dy=ty-bot.y,d=Math.hypot(dx,dy);if(d<1.2){bot.x=tx;bot.y=ty;bot.moving=false;return false}
+ const step=Math.min(d,speed*dt);bot.x+=dx/d*step;bot.y+=dy/d*step;bot.moving=true;return true;
+}
+function botAI(dt){
+ if(!state.playing||state.paused)return;
+ syncStaffBots();
+ const prep=stationPoint('prep'),pass=stationPoint('pass'),sink=stationPoint('sink');
+ for(const bot of state.staffBots){
+  bot.timer=Math.max(0,bot.timer-dt);
+  if(bot.role==='cook'){
+   if(!bot.target){
+    const g=state.guests.find(x=>x.ordered&&!state.preppedOrders.includes(x.id)&&!state.botCookingIds.includes(x.id)&&!state.readyPlates.some(p=>p.guestId===x.id)&&x.id!==state.cookTargetId&&x.id!==state.prepTargetId&&hasIngredients(x.dish));
+    if(g&&state.cleanPlates>0&&state.inventory){
+     if(consumeIngredients(g.dish)){state.cleanPlates--;state.botCookingIds.push(g.id);bot.target=g.id;bot.phase='prep';bot.timer=g.dish.prepTime+1.5;bot.status='Picando ingredientes';}
+    }else bot.status=state.inventory&&Object.values(state.inventory).some(v=>v>0)?'Esperando pedido':'Falta despensa';
+   }else{
+    const g=state.guests.find(x=>x.id===bot.target);
+    if(!g){state.botCookingIds=state.botCookingIds.filter(id=>id!==bot.target);state.cleanPlates++;bot.target=null;bot.phase='idle';bot.status='Disponible';continue}
+    if(bot.phase==='prep'){
+     bot.moving=moveBot(bot,prep.x,prep.y,dt,14);bot.status='Picando '+g.dish.icon;
+     if(!bot.moving&&bot.timer<=0){bot.phase='cook';bot.timer=g.dish.time*Math.pow(.85,state.kitchenLevel);bot.status='Cocinando '+g.dish.icon;}
+    }else if(bot.phase==='cook'){
+     const target=stationPoint(g.dish.station);bot.moving=moveBot(bot,target.x,target.y,dt,14);bot.status=(g.dish.station==='oven'?'Horneando ':'En estufa ')+g.dish.icon;
+     if(!bot.moving&&bot.timer<=0){state.readyPlates.push({guestId:g.id,dish:g.dish,from:'bot'});state.botCookingIds=state.botCookingIds.filter(id=>id!==g.id);bot.target=null;bot.phase='idle';bot.status='En ventanilla';updatePass();draw();}
+    }
+   }
+  }else if(bot.role==='waiter'){
+   if(!bot.target&&!bot.dirtyItemId){
+    const claimed=state.staffBots.filter(b=>b.role==='waiter'&&b.target).map(b=>b.target);
+    const ready=state.readyPlates.find(p=>!p.locked&&!claimed.includes(p.guestId));
+    const waiting=state.guests.find(g=>!g.ordered&&g.seated!==false&&!claimed.includes(g.id));
+    if(ready){bot.target=ready.guestId;bot.phase='pickup';bot.status='Recogiendo en ventanilla';bot.carrying=null;}
+    else if(waiting){bot.target=waiting.id;bot.phase='takeOrder';bot.status='Yendo a tomar pedido';bot.carrying=null;}
+    else{
+     const dirty=state.dirtyItems.find(item=>!item.claimedBy);
+     if(dirty){dirty.claimedBy=bot.id;bot.dirtyItemId=dirty.id;bot.phase='collectDirty';bot.status='Recogiendo plato sucio';}
+     else{bot.status='Esperando en ventanilla';bot.moving=moveBot(bot,pass.x,pass.y,dt,16)}
+    }
+   }else if(bot.dirtyItemId){
+    const item=state.dirtyItems.find(x=>x.id===bot.dirtyItemId);
+    if(!item){bot.dirtyItemId=null;bot.phase='idle';bot.carrying=null;bot.status='Disponible';continue}
+    if(bot.phase==='collectDirty'){
+     bot.moving=moveBot(bot,item.x,item.y,dt,17);bot.status='Recogiendo plato';
+     if(!bot.moving){bot.phase='returnDirty';bot.carrying='🍽️';bot.status='Llevando plato sucio'}
+    }else if(bot.phase==='returnDirty'){
+     const ret=stationPoint('dirtyReturn');bot.moving=moveBot(bot,ret.x,ret.y,dt,17);bot.status='Llevando a retorno';
+     if(!bot.moving){state.dirtyItems=state.dirtyItems.filter(x=>x.id!==item.id);state.dirtyPlates++;bot.dirtyItemId=null;bot.carrying=null;bot.phase='idle';bot.status='Plato en retorno';hud()}
+    }
+    continue;
+   }else if(bot.phase==='takeOrder'){
+    const g=state.guests.find(x=>x.id===bot.target);
+    if(!g||g.ordered){bot.target=null;bot.phase='idle';bot.status='Disponible';continue}
+    bot.moving=moveBot(bot,g.x,g.y,dt,17);bot.status='Acercándose a '+g.name;
+    if(!bot.moving){bot.phase='takingOrder';bot.timer=1.15;bot.status='Tomando pedido';}
+   }else if(bot.phase==='takingOrder'){
+    const g=state.guests.find(x=>x.id===bot.target);
+    if(!g){bot.target=null;bot.phase='idle';bot.status='Cliente se retiró';continue}
+    if(g.ordered){bot.target=null;bot.phase='idle';bot.status='Pedido ya anotado';continue}
+    if(bot.timer<=0){g.ordered=true;g.orderTime=0;g.serviceMax=Math.max(65,75+g.dish.time*2+(g.personality==='Paciente'?20:0));g.serviceTime=g.serviceMax;state.selectedId=g.id;bot.target=null;bot.phase='idle';bot.status='Pedido anotado';toast('El mesero anotó el pedido de '+g.name+'.');draw();}
+   }else if(bot.phase==='pickup'){
+    bot.moving=moveBot(bot,pass.x,pass.y,dt,17);
+    if(!bot.moving){const idx=state.readyPlates.findIndex(p=>p.guestId===bot.target);if(idx>=0){bot.carrying=state.readyPlates[idx].dish.icon;bot.dish=state.readyPlates[idx].dish;state.readyPlates.splice(idx,1);bot.phase='deliver';bot.status='Llevando '+bot.carrying;updatePass()}else{bot.target=null;bot.phase='idle'}}
+   }else if(bot.phase==='deliver'){
+    const g=state.guests.find(x=>x.id===bot.target);
+    if(!g){if(bot.carrying)state.dirtyPlates++;bot.target=null;bot.phase='idle';bot.carrying=null;bot.status='Pedido cancelado';continue}
+    bot.moving=moveBot(bot,g.x,g.y,dt,18);bot.status='Entregando '+bot.carrying;
+    if(!bot.moving){bot.timer-=dt;if(bot.timer<=0){completeGuest(g,'waiter');bot.target=null;bot.phase='idle';bot.carrying=null;bot.status='Volviendo a ventanilla';}}
+   }
+  }else if(bot.role==='dishwasher'){
+   const ret=stationPoint('dirtyReturn'),storage=stationPoint('cleanStorage');
+   if(bot.phase==='idle'){
+    if(state.dirtyPlates>0){bot.phase='goReturn';bot.status='Va por vajilla sucia'}
+    else{bot.status='Vajilla lista';bot.moving=moveBot(bot,storage.x,storage.y,dt,13);continue}
+   }
+   if(bot.phase==='goReturn'){
+    bot.moving=moveBot(bot,ret.x,ret.y,dt,14);bot.status='Recogiendo vajilla';
+    if(!bot.moving){state.dirtyPlates=Math.max(0,state.dirtyPlates-1);bot.phase='goSink';bot.status='Llevando plato al lavavajillas';}
+   }else if(bot.phase==='goSink'){
+    bot.moving=moveBot(bot,sink.x,sink.y,dt,14);if(!bot.moving){bot.phase='washing';bot.timer=3.8;bot.status='Lavando plato'}
+   }else if(bot.phase==='washing'){
+    bot.status='Lavando plato';if(bot.timer<=0){state.cleanPlates++;bot.phase='returnClean';bot.status='Plato limpio'}
+   }else if(bot.phase==='returnClean'){
+    bot.moving=moveBot(bot,storage.x,storage.y,dt,14);bot.status='Guardando plato limpio';if(!bot.moving){bot.phase='idle';bot.status='Vajilla lista';hud()}
+   }
+  }
+ }
+}
+function cameraFollow(){
+ const scene=$('scene'),world=$('world');if(!scene||!world)return;
+ const sw=scene.clientWidth,sh=scene.clientHeight,ww=world.offsetWidth,wh=world.offsetHeight;
+ const px=state.x/100*ww,py=state.y/100*wh;
+ const minX=Math.min(0,sw-ww),minY=Math.min(0,sh-wh);
+ const tx=Math.max(minX,Math.min(0,sw*.5-px));
+ const ty=Math.max(minY,Math.min(0,sh*.5-py));
+ world.style.transform=`translate3d(${tx}px,${ty}px,0)`;
+}
+function updateFrame(){
+ const actor=$('playerActor');if(!actor)return;
+ actor.style.left=state.x+'%';actor.style.top=state.y+'%';
+ const moving=!state.cooking&&!state.prepping&&!!(state.move.x||state.move.y);let status=(state.cooking||state.prepping)?'cooking':(moving?'walking':'idle');if(state.playerAction==='crouch')status+=' crouch';
+ if(state.playerAction)status+=' action-'+state.playerAction;
+ const classes='actor player '+status;if(actor.className!==classes)actor.className=classes;
+ const ring=$('cookRing');if(ring&&(state.cooking||state.prepping)){const left=state.prepping?state.prepRemaining:state.cookRemaining,total=state.prepping?state.prepTotal:state.cookTotal;ring.style.setProperty('--pct',Math.max(0,left/Math.max(1,total)*100)+'%');const label=ring.querySelector('span');if(label)label.textContent=Math.ceil(left)+'s';}
+}
+function renderTaskbar(){
+ const el=$('taskList');if(!el)return;
+ if(!state.guests.length){const empty='<div class="taskEmpty">No hay encargos activos. En cuanto llegue un grupo, aparecerá aquí.</div>';if(el.dataset.rendered!==empty){el.innerHTML=empty;el.dataset.rendered=empty;}return;}
+ const html=state.guests.map(g=>{
+  const ready=state.readyPlates.some(p=>p.guestId===g.id),botCooking=state.botCookingIds.includes(g.id),held=state.plate?.guestId===g.id,playerCooking=state.cooking&&state.cookTargetId===g.id,prepped=state.preppedOrders.includes(g.id),waiterOnWay=state.staffBots.some(b=>b.role==='waiter'&&b.target===g.id&&b.phase==='deliver');
+  let status=!g.ordered?(g.seated===false?'Entrando y buscando mesa':'Esperando que tomen pedido'):held?'Llevar a la mesa':waiterOnWay?'Mesero en camino':ready?'Listo en ventanilla':(botCooking||playerCooking)?'Cocinando':state.prepTargetId===g.id?'Picando ingredientes':prepped?'Ingredientes listos':'Pedido anotado';
+  const pct=g.ordered?Math.max(0,g.serviceTime/Math.max(1,g.serviceMax)*100):Math.max(0,g.orderTime/Math.max(1,g.orderMax)*100);
+  const timerText=g.ordered?`Entrega: ${Math.ceil(g.serviceTime)} s`:`Pedido: ${Math.ceil(g.orderTime)} s`;
+  return `<button class="taskChip ${g.id===state.selectedId?'active':''}" data-task-guest="${g.id}"><span class="taskTop"><b>🐱 ${esc(g.name)} · ${g.partySize} en mesa</b><small>${g.ordered?g.dish.icon:'❔'}</small></span><span class="taskRequest">${g.ordered?'Quiere '+esc(g.dish.name.toLowerCase()):'Esperando que anotes su pedido'}</span><span class="taskStatus">${status}</span><span class="taskTimers"><span>${timerText}</span><span>${g.tableId}</span></span><span class="taskPatience"><i style="width:${pct}%"></i></span></button>`;
+ }).join('');
+ if(el.dataset.rendered!==html){el.innerHTML=html;el.dataset.rendered=html;el.querySelectorAll('[data-task-guest]').forEach(b=>b.onclick=()=>{state.selectedId=b.dataset.taskGuest;draw();const g=selectedGuest();if(g)toast(`${g.name}: ${g.ordered?g.dish.name:'todavía espera que tomes su pedido'}.`)});}
+}
+function renderOrders(){
+ const el=$('orders');if(!el)return;
+ if(!state.guests.length){el.innerHTML='<div class="empty">Los michis están por llegar…</div>';return}
+ el.innerHTML=state.guests.map(g=>{
+  const pct=Math.max(0,(g.ordered?g.serviceTime/g.serviceMax:g.orderTime/g.orderMax)*100);
+  const orderText=g.ordered?`${g.dish.name} · entrega ${Math.ceil(g.serviceTime)} s`:`Sin pedido · ${Math.ceil(g.orderTime)} s para acercarte`;
+  return `<button class="order ${g.id===state.selectedId?'selected':''} ${g.ordered?'':'pending'}" data-order="${g.id}"><span><b>${esc(g.name)} · ${esc(g.personality)}</b><br><small>${orderText}</small></span><span class="dish">${g.ordered?g.dish.icon:'❔'}</span><span class="patience"><i style="width:${pct}%"></i></span></button>`;
+ }).join('');
+ el.querySelectorAll('[data-order]').forEach(b=>b.onclick=()=>{state.selectedId=b.dataset.order;draw();const g=selectedGuest();toast(g.ordered?`${g.name}: ${g.dish.name}.`:`Ve a la mesa de ${g.name} para tomar su pedido.`)});
+}
+function hud(){
+ $('coins').textContent=state.coins;$('rep').textContent=state.rep;$('day').textContent=state.day;$('served').textContent=state.served;
+ $('dayBar').style.width=Math.min(100,state.elapsed/state.dayLength*100)+'%';$('clock').textContent=fmt(Math.max(0,state.dayLength-state.elapsed));
+ $('timeLabel').textContent=!state.playing?'Restaurante cerrado':state.paused?'Jornada pausada':state.dayFinishing?'Cierre · termina los pedidos':state.closing?'Últimos clientes · sin nuevas entradas':'Servicio en curso';
+ $('dayDuration').textContent=state.dayLength/60+' '+(state.dayLength===60?'minuto':'minutos');$('pause').textContent=state.paused?'▶ Continuar':'Ⅱ Pausar';$('pause').disabled=!state.playing;
+ const g=selectedGuest();
+ $('takeOrder').disabled=!state.playing||state.paused||!g||g.ordered||state.cooking||state.prepping;
+ $('prepare').disabled=!state.playing||state.paused||!g||!g.ordered||state.cooking||state.prepping||state.preppedOrders.includes(g.id)||!hasIngredients(g.dish);
+ $('cook').disabled=!state.playing||state.paused||!g||!g.ordered||state.cooking||state.prepping||!state.preppedOrders.includes(g.id)||state.cleanPlates<=0;
+ $('pickup').disabled=!state.playing||state.paused||!state.readyPlates.length||!!state.plate;
+ $('serve').disabled=!state.playing||state.paused||!state.plate;
+ $('wash').disabled=!state.playing||state.paused||state.dirtyPlates<=0||state.cooking||state.prepping;
+ $('heldInfo').textContent=state.dirtyCarry?'Llevas un plato sucio. Déjalo en el mostrador de retorno.':state.prepping?`Picando ingredientes para ${state.preppingDish?.name||'el pedido'}…`:state.cooking?`Cocinando ${state.cookingDish?.name||'un platillo'}…`:state.plate?`Llevas ${state.plate.name} para ${state.plate.guestName}. Ve a su mesa.`:g&&!g.ordered?`${g.name} espera que anotes su pedido: ${Math.ceil(g.orderTime)} s.`:g&&g.ordered?`${g.dish.name} · ${Math.ceil(g.serviceTime)} s para servir.`:'Selecciona una tarjeta de encargo.';
+ $('crewInfo').innerHTML=`<div>🍽️ Meseros: <b>${state.staff.waiter}</b></div><div>👩‍🍳 Cocineros: <b>${state.staff.cook}</b></div><div>🧽 Lavaplatos: <b>${state.staff.dishwasher}</b></div><div>✨ Platos limpios: <b>${state.cleanPlates}</b></div><div>📥 En retorno: <b>${state.dirtyPlates}</b></div><div>🪑 En mesas: <b>${state.dirtyItems.length}</b></div><div>🛎️ En ventanilla: <b>${state.readyPlates.length}</b></div>`;
+ $('inventoryInfo').innerHTML=inventoryHTML();updateContextAction();if($('dirtyReturnCount'))$('dirtyReturnCount').textContent=`${state.dirtyPlates} platos`;
+ const goalPct=Math.min(100,state.served/state.goalTarget*100);$('goalBar').style.width=goalPct+'%';$('goalInfo').textContent=state.served>=state.goalTarget?`¡Meta lograda! +${state.goalReward} monedas al cierre.`:`Entrega ${state.goalTarget} platillos · ${state.served}/${state.goalTarget} · Recompensa: ${state.goalReward} monedas.`;$('comboInfo').textContent=`${state.combo} pedidos seguidos · récord ${state.bestCombo}`;renderTaskbar();updatePass();
+}
+function fmt(s){s=Math.ceil(s);return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function draw(){renderActors();renderOrders();hud()}
+function updateGuestMovement(dt){
+ state.guests.forEach(g=>{
+  if(!g.walking||!g.walkPath?.length)return;
+  const wp=g.walkPath[Math.min(g.walkIndex,g.walkPath.length-1)];
+  const dx=wp.x-g.x,dy=wp.y-g.y,d=Math.hypot(dx,dy);
+  if(d<.45){g.x=wp.x;g.y=wp.y;g.walkIndex++;
+   if(g.walkIndex>=g.walkPath.length){g.walking=false;g.seated=true;g.x=g.targetSeat.x;g.y=g.targetSeat.y;g.justSeated=true;toast(`${g.name} llegó a su mesa y está esperando.`)}
+  }else{const step=Math.min(d,13.5*dt);g.x+=dx/d*step;g.y+=dy/d*step;}
+  const node=$('actors')?.querySelector(`[data-guest-id="${g.id}"]`);
+  if(node){node.style.left=g.x+'%';node.style.top=g.y+'%';if(!g.walking){node.classList.remove('walking','idle');node.classList.add('seated');const bubble=node.querySelector('.bubble');if(bubble)bubble.textContent=g.ordered?g.dish.icon+' PEDIDO':'📝 ¿PEDIDO?'}}
+ });
+}
+function spawnGuest(){
+ if(!state.playing||state.closing||state.elapsed>=state.dayLength-10)return;
+ const freeTables=tables.filter(t=>!state.guests.some(g=>g.tableId===t.id));if(!freeTables.length)return;
+ const table=freeTables[Math.floor(Math.random()*freeTables.length)];
+ const partySize=1+Math.floor(Math.random()*table.capacity);
+ const partyId='party-'+state.day+'-'+(++state.spawnIndex)+'-'+Math.floor(Math.random()*9999);
+ const menu=availableDishes();if(!menu.length)return;
+ for(let i=0;i<partySize;i++){
+  const c=roster[(state.spawnIndex+i)%roster.length],dish=menu[Math.floor(Math.random()*menu.length)],seat=table.seats[i];
+  const base=c.patience+state.patienceLevel*8+state.staff.waiter*6;
+  const orderMax=Math.max(35,Math.round(base*.72));
+  const entryX=62.5+(i%2)*1.5,entryY=13.5-Math.floor(i/2)*1.7;
+  const guest={id:partyId+'-'+i,partyId,partySize,seatIndex:i,tableId:table.id,x:entryX,y:entryY,targetSeat:{x:seat.x,y:seat.y},walkPath:[{x:64,y:24},{x:65,y:34},{x:68,y:40},{x:seat.x,y:seat.y}],walkIndex:0,walking:true,seated:false,name:c.name,fur:c.fur,patch:c.patch,hat:c.hat,personality:c.personality,dish,ordered:false,orderTime:orderMax,orderMax,serviceTime:0,serviceMax:0,price:dish.price};
+  state.guests.push(guest);
+ }
+ if(!state.selectedId)state.selectedId=state.guests.find(g=>g.partyId===partyId)?.id||null;
+ playEntranceBell();toast(`🔔 Llegó un grupo de ${partySize}. Entra por la puerta y busca su mesa.`);draw();
+}
+function nearestWaitingGuest(maxDistance=8.8){
+ return state.guests.filter(g=>!g.ordered&&g.seated!==false)
+  .map(g=>({g,d:guestDistance(g)})).filter(x=>x.d<=maxDistance).sort((a,b)=>a.d-b.d)[0]?.g||null;
+}
+function animatePlayerAction(kind,duration,callback){
+ if(state.actionLock)return;
+ state.actionLock=true;state.playerAction=kind;state.move={x:0,y:0};state.keys={};state.joystick={x:0,y:0};resetJoystick();draw();
+ window.setTimeout(()=>{state.actionLock=false;state.playerAction='';if(typeof callback==='function')callback();draw()},duration);
+}
+function nearestDirtyDish(maxDistance=8.8){
+ return state.dirtyItems.filter(d=>!d.claimedBy).map(d=>({item:d,d:Math.hypot((state.x-d.x)*.85,state.y-d.y)})).filter(x=>x.d<=maxDistance).sort((a,b)=>a.d-b.d)[0]?.item||null;
+}
+function queueDirtyPlate(g){
+ state.dirtyItems.push({id:'dirty-'+(++state.dirtySequence),x:g.x,y:g.y,tableId:g.tableId,claimedBy:null});
+}
+function takeOrder(){
+ if(!state.playing||state.paused||state.actionLock)return;
+ const g=nearestWaitingGuest();
+ if(!g){const selected=selectedGuest();toast(selected&&!selected.ordered?`Acércate al costado de cualquier mesa que esté esperando pedido. ${selected.name} está en ${selected.tableId}.`:'No hay un comensal cercano esperando pedido.');return}
+ state.selectedId=g.id;state.orderingGuestId=g.id;
+ animatePlayerAction('order',680,()=>{
+  const live=state.guests.find(x=>x.id===g.id);
+  if(!live){state.orderingGuestId=null;toast('El comensal ya no está en la mesa.');return}
+  $('customerRequest').textContent=`${live.name}: «¡Quiero ${live.dish.name.toLowerCase()}, por favor!». Tienes ${Math.ceil(live.orderTime)} segundos antes de que se vaya.`;
+  renderMenu();$('menuModal').style.display='grid';
+ });
+}
+function renderMenu(){
+ const categories=['Entradas','Platos fuertes','Postres','Bebidas'];let out='';
+ categories.forEach(cat=>{
+  if(!state.unlockedCategories.includes(cat))return;
+  const rows=availableDishes().filter(d=>d.category===cat);if(!rows.length)return;
+  out+=`<div class="menuCategory">${cat}</div>`;
+  out+=rows.map(d=>`<button class="menuDish" data-dish="${d.id}"><span class="dishIcon">${d.icon}</span><span><b>${d.name}</b><small>${d.ingredients.map(i=>ingredientLabel(i.key)).join(' + ')} · ${d.station==='oven'?'Horno':'Estufa'} · ${d.price} monedas</small></span></button>`).join('');
+ });
+ $('menuItems').innerHTML=out||'<div class="empty">Desbloquea más categorías en la tienda.</div>';
+ $('menuItems').querySelectorAll('[data-dish]').forEach(b=>b.onclick=()=>recordOrder(b.dataset.dish));
+}
+function recordOrder(dishId){
+ const g=state.guests.find(x=>x.id===state.orderingGuestId);if(!g){$('menuModal').style.display='none';toast('Ese comensal ya no está en el restaurante.');return}
+ if(g.dish.id!==dishId){toast(`${g.name} responde: «Ese no era, yo pedí ${g.dish.name}».`);return}
+ g.ordered=true;g.orderTime=0;g.serviceMax=Math.max(65,75+g.dish.time*2+(g.personality==='Paciente'?20:0));g.serviceTime=g.serviceMax;
+ state.selectedId=g.id;state.orderingGuestId=null;$('menuModal').style.display='none';draw();
+ toast(`Pedido anotado: ${g.name} quiere ${g.dish.name}. Tienes ${Math.ceil(g.serviceTime)} segundos para prepararlo y llevarlo.`);
+}
+function prepareIngredients(){
+ if(!state.playing||state.paused)return;const g=selectedGuest();
+ if(!g||!g.ordered){toast('Primero toma el pedido del cliente.');return}
+ if(state.preppedOrders.includes(g.id)){toast('Los ingredientes de este pedido ya están preparados.');return}
+ if(!canUseStation('prep'))return;
+ if(state.prepping||state.cooking){toast('Termina la tarea actual antes de empezar otra.');return}
+ if(!hasIngredients(g.dish)){toast('Faltan ingredientes. Abre la tienda y compra más despensa.');return}
+ if(!consumeIngredients(g.dish)){toast('No hay suficientes ingredientes.');return}
+ state.prepping=true;state.prepTargetId=g.id;state.preppingDish=g.dish;state.prepTotal=(g.dish.prepTime+1.5)*Math.pow(.92,state.prepLevel);state.prepRemaining=state.prepTotal;state.move={x:0,y:0};state.keys={};resetJoystick();toast(`Pica en las tablas los ingredientes para ${g.dish.name}.`);draw();
+}
+function cook(){
+ if(!state.playing||state.paused)return;if(state.prepping||state.cooking){toast('Termina la tarea actual primero.');return}
+ const g=selectedGuest();if(!g||!g.ordered){toast('Selecciona un pedido anotado.');return}
+ if(!state.preppedOrders.includes(g.id)){toast('Primero ve a PREPARACIÓN y pica los ingredientes en la tabla.');return}
+ if(!canUseStation(g.dish.station))return;
+ if(state.plate){toast('Primero entrega el platillo que llevas.');return}
+ if(state.cleanPlates<=0){toast('No quedan platos limpios. Ve al lavavajillas.');return}
+ state.cooking=true;state.move={x:0,y:0};state.keys={};resetJoystick();state.cleanPlates--;
+ state.cookingDish=g.dish;state.cookTargetId=g.id;state.cookTotal=g.dish.time*Math.pow(.85,state.kitchenLevel)*Math.pow(.92,state.prepLevel);state.cookRemaining=state.cookTotal;
+ toast(`${g.dish.station==='oven'?'¡Al horno!':'¡A la estufa!'} Preparando ${g.dish.name}.`);draw();
+}
+function finishCooking(){
+ const targetId=state.cookTargetId,dish=state.cookingDish;state.cooking=false;state.cookTargetId=null;state.cookingDish=null;
+ state.preppedOrders=state.preppedOrders.filter(id=>id!==targetId);
+ if(state.guests.some(g=>g.id===targetId)){state.readyPlates.push({guestId:targetId,dish,from:'player'});toast(`¡${dish.name} listo! Déjalo en la ventanilla.`)}else{state.dirtyPlates++;toast('El cliente se retiró antes de terminar. El plato usado pasa a la vajilla sucia.')}
+ draw();
+}
+function pickupDish(){
+ if(!state.playing||state.paused||state.actionLock)return;if(state.plate){toast('Ya llevas un platillo. Entrégalo antes de recoger otro.');return}
+ if(!canUseStation('pass'))return;const ready=state.readyPlates.find(p=>!p.locked);if(!ready){toast('La ventanilla está vacía.');return}ready.locked=true;
+ animatePlayerAction('pickup',650,()=>{
+  const idx=state.readyPlates.indexOf(ready);if(idx<0){toast('Ese platillo ya fue recogido.');return}
+  state.readyPlates.splice(idx,1);const guest=state.guests.find(g=>g.id===ready.guestId);
+  state.plate={guestId:ready.guestId,dishId:ready.dish.id,name:ready.dish.name,icon:ready.dish.icon,guestName:guest?.name||'un cliente'};
+  toast(`Recogiste ${ready.dish.name}. Llévalo a ${guest?.name||'su mesa'}.`);updatePass();
+ });
+}
+function completeGuest(g,source='player'){
+ if(!g||!state.guests.some(x=>x.id===g.id))return;
+ const now=state.elapsed;if(state.lastServeAt&&now-state.lastServeAt<=25)state.combo++;else state.combo=1;
+ state.lastServeAt=now;state.bestCombo=Math.max(state.bestCombo,state.combo);const comboBonus=state.combo>0&&state.combo%3===0?8:0;
+ const tip=source==='waiter'?2:state.staff.waiter*2;const earned=g.price+tip+comboBonus;
+ state.coins+=earned;state.served++;state.rep=Math.min(100,state.rep+3);queueDirtyPlate(g);
+ state.guests=state.guests.filter(x=>x.id!==g.id);state.preppedOrders=state.preppedOrders.filter(id=>id!==g.id);state.botCookingIds=state.botCookingIds.filter(id=>id!==g.id);state.readyPlates=state.readyPlates.filter(p=>p.guestId!==g.id);
+ if(state.selectedId===g.id)state.selectedId=state.guests[0]?.id||null;
+ toast(`¡Pedido entregado a ${g.name}! +${earned} monedas${comboBonus?' · bono de racha':''}.`);draw();
+}
+function serve(){
+ if(!state.playing||state.paused||state.actionLock)return;if(!state.plate){toast('Primero recoge el platillo en la ventanilla.');return}
+ const target=state.guests.find(g=>g.id===state.plate.guestId);if(!target){state.plate=null;toast('El cliente se retiró; el pedido se canceló.');draw();return}
+ if(guestDistance(target)>8.8){toast(`Acércate al costado de la mesa de ${target.name} para entregar el platillo.`);return}
+ if(target.dish.id!==state.plate.dishId){toast(`Pedido incorrecto. ${target.name} pidió ${target.dish.name}.`);return}
+ animatePlayerAction('serve',720,()=>{
+  if(!state.guests.some(g=>g.id===target.id)){state.plate=null;toast('El comensal ya se retiró.');return}
+  state.plate=null;completeGuest(target,'player');if(!state.closing&&state.guests.length<12)state.spawnClock=Math.min(state.spawnClock,3);
+  if(state.closing&&state.elapsed>=state.dayLength&&state.guests.length===0&&!state.cooking&&!state.prepping&&!state.plate)endDay();
+ });
+}
+function washDishes(){
+ if(!state.playing||state.paused||state.actionLock)return;if(state.prepping||state.cooking){toast('Termina la preparación o cocción primero.');return}
+ if(!canUseStation('sink'))return;if(state.dirtyPlates<=0){toast('No hay platos en el retorno. Primero recoge los platos de las mesas y llévalos al mostrador azul.');return}
+ const washed=state.dirtyPlates;animatePlayerAction('wash',1450,()=>{state.cleanPlates+=washed;state.dirtyPlates=Math.max(0,state.dirtyPlates-washed);toast(`¡Lavaste ${washed} plato(s)! Ya están limpios y listos para volver a usarse.`);hud()});
+}
+const upgrades=[
+ {key:'kitchenLevel',section:'Equipo de cocina',name:'🔥 Estufa profesional',desc:'Reduce el tiempo en estufa y horno un 15% por nivel.',base:65,max:3},
+ {key:'prepLevel',section:'Equipo de cocina',name:'🔪 Tablas profesionales',desc:'Reduce el tiempo de picado un 8% adicional por nivel.',base:85,max:3},
+ {key:'patienceLevel',section:'Servicio',name:'🧊 Refrigerador amplio',desc:'Aumenta ligeramente el tiempo inicial para pedir.',base:55,max:3},
+ {key:'speedLevel',section:'Servicio',name:'🐾 Piso de servicio',desc:'Aumenta la velocidad del chef.',base:60,max:3}
+];
+const menuPacks=[{category:'Platos fuertes',cost:150,desc:'Sopas completas, ramen, pasta y platillos principales.'},{category:'Postres',cost:125,desc:'Pasteles, galletas y waffles para la tarde.'}];
+const hires=[
+ {key:'waiter',name:'🧑‍🍳 Mesero/a',desc:'Toma pedidos, entrega platillos y recoge la vajilla sucia de las mesas para llevarla al retorno.',base:120,max:2},
+ {key:'cook',name:'👩‍🍳 Cocinero/a',desc:'Pica ingredientes y cocina pedidos automáticamente.',base:150,max:2},
+ {key:'dishwasher',name:'🧽 Lavaplatos',desc:'Se desplaza al lavavajillas y limpia la vajilla automáticamente.',base:100,max:2}
+];
+function pickUpDirtyDish(){
+ if(state.dirtyCarry||state.actionLock)return;const item=nearestDirtyDish();if(!item)return;
+ item.claimedBy='player';animatePlayerAction('pickupDirty',620,()=>{state.dirtyCarry=item;state.dirtyItems=state.dirtyItems.filter(x=>x.id!==item.id);toast('Recogiste el plato sucio. Llévalo al mostrador de retorno.');hud()});
+}
+function dropDirtyDish(){
+ if(!state.dirtyCarry||state.actionLock)return;if(!nearStation('dirtyReturn')){toast('Acércate al mostrador de retorno de platos sucios.');return}
+ animatePlayerAction('putdown',580,()=>{state.dirtyPlates++;state.dirtyCarry=null;toast('Plato colocado en el retorno. El lavaplatos podrá recogerlo.');hud()});
+}
+function contextAction(){
+ if(!state.playing||state.paused||state.actionLock)return;
+ if(state.plate){const g=state.guests.find(x=>x.id===state.plate.guestId);if(g&&guestDistance(g)<=8.8)return serve();toast('Lleva el platillo a la mesa correcta.');return}
+ if(state.dirtyCarry){if(nearStation('dirtyReturn'))return dropDirtyDish();toast('Lleva el plato sucio al mostrador de retorno.');return}
+ if(nearStation('pass')&&state.readyPlates.length)return pickupDish();
+ if(nearStation('sink')&&state.dirtyPlates>0)return washDishes();
+ const dirty=nearestDirtyDish();if(dirty)return pickUpDirtyDish();
+ const waiting=nearestWaitingGuest();if(waiting){state.selectedId=waiting.id;return takeOrder()}
+ const g=selectedGuest();
+ if(g&&g.ordered&&!state.preppedOrders.includes(g.id)&&nearStation('prep'))return prepareIngredients();
+ if(g&&g.ordered&&state.preppedOrders.includes(g.id)&&nearStation(g.dish.station))return cook();
+ if(nearStation('sink')&&state.dirtyPlates>0)return washDishes();
+ if(nearStation('dirtyReturn')){toast('El retorno está listo. Recoge un plato sucio de cualquier mesa.');return}
+ if(nearStation('pass')){toast(state.readyPlates.length?'Recoge el platillo listo.':'Todavía no hay platillos en ventanilla.');return}
+ if(g&&!g.ordered){toast(`Acércate a cualquier mesa; ${g.name} espera en ${g.tableId}.`);return}
+ if(g&&g.ordered&&!state.preppedOrders.includes(g.id)){toast('Ve a una tabla de PREPARACIÓN para picar los ingredientes.');return}
+ if(g&&g.ordered&&state.preppedOrders.includes(g.id)){toast(`Ve a ${g.dish.station==='oven'?'HORNO':'ESTUFA'} para cocinar ${g.dish.name}.`);return}
+ toast('Acércate a una mesa, estación de cocina o área de servicio para interactuar.');
+}
+function updateContextAction(){
+ const b=$('contextActionBtn');if(!b)return;
+ b.disabled=!state.playing||state.paused||state.actionLock;
+ let label='Ⓐ INTERACTUAR';
+ if(state.actionLock)label='… TRABAJANDO';
+ else if(state.plate){const g=state.guests.find(x=>x.id===state.plate.guestId);label=g&&guestDistance(g)<=8.8?'Ⓐ ENTREGAR PEDIDO':'LLEVAR A LA MESA';}
+ else if(state.dirtyCarry)label=nearStation('dirtyReturn')?'Ⓐ DEJAR PLATO':'LLEVAR PLATO SUCIO';
+ else if(nearStation('pass')&&state.readyPlates.length)label='Ⓐ RECOGER PLATILLO';
+ else if(nearStation('sink')&&state.dirtyPlates>0)label='Ⓐ LAVAR VAJILLA';
+ else if(nearestDirtyDish())label='Ⓐ RECOGER PLATO';
+ else if(nearestWaitingGuest())label='Ⓐ TOMAR PEDIDO';
+ else if(nearStation('prep')&&selectedGuest()?.ordered&&!state.preppedOrders.includes(selectedGuest().id))label='Ⓐ PICAR INGREDIENTES';
+ else if(selectedGuest()?.ordered&&state.preppedOrders.includes(selectedGuest().id)&&nearStation(selectedGuest().dish.station))label='Ⓐ COCINAR';
+ else if(selectedGuest()&&!selectedGuest().ordered)label='ACÉRCATE A UNA MESA';
+ else if(selectedGuest()?.ordered&&!state.preppedOrders.includes(selectedGuest().id))label='IR A PREPARACIÓN';
+ else if(selectedGuest()?.ordered&&state.preppedOrders.includes(selectedGuest().id))label='IR A COCINAR';
+ b.textContent=label;
+}
+function renderShop(){
+ let lastSection='',out='';
+ upgrades.forEach(u=>{
+  if(u.section!==lastSection){out+=`<div class="shopSection">${u.section}</div>`;lastSection=u.section}
+  const lvl=state[u.key]||0,cost=u.base*(lvl+1);
+  out+=`<div class="shopItem"><div class="desc"><b>${u.name}</b><br>${u.desc}<br><small>Nivel ${lvl}/${u.max} · ${lvl>=u.max?'Máximo alcanzado':cost+' monedas'}</small></div><button data-upgrade="${u.key}" ${lvl>=u.max||state.coins<cost?'disabled':''}>${lvl>=u.max?'Máximo':'Mejorar'}</button></div>`;
+ });
+ out+='<div class="shopSection">Contratar personal</div>';
+ hires.forEach(h=>{
+  const count=state.staff[h.key]||0,cost=h.base*(count+1);
+  out+=`<div class="shopItem staffHire"><div class="desc"><b>${h.name} · ${count}/${h.max}</b><br>${h.desc}<br><small>${count>=h.max?'Plantilla completa':cost+' monedas'}</small></div><button data-hire="${h.key}" ${count>=h.max||state.coins<cost?'disabled':''}>${count>=h.max?'Completo':'Contratar'}</button></div>`;
+ });
+ out+='<div class="shopSection">Desbloquear menús</div>';
+ menuPacks.forEach(p=>{const unlocked=state.unlockedCategories.includes(p.category);out+=`<div class="shopItem"><div class="desc"><b>📖 Menú de ${p.category}</b><br>${p.desc}<br><small>${unlocked?'Ya desbloqueado':p.cost+' monedas'}</small></div><button data-menu-unlock="${p.category}" ${unlocked||state.coins<p.cost?'disabled':''}>${unlocked?'Desbloqueado':'Desbloquear'}</button></div>`});
+ out+='<div class="shopSection">Comprar ingredientes</div><div class="shopItem"><div class="desc"><b>🥕 Caja de despensa</b><br>Repone 5 unidades de cada ingrediente.<br><small>45 monedas</small></div><button data-restock="all" '+(state.coins<45?'disabled':'')+'>Comprar</button></div>';
+ out+=`<div class="shopSection">Inventario de vajilla</div><div class="mini">🍽 Platos limpios: <b>${state.cleanPlates}</b> · Platos sucios: <b>${state.dirtyPlates}</b>. Usa el lavavajillas cerca de la estación azul.</div>`;
+ $('shopItems').innerHTML=out;
+ $('shopItems').querySelectorAll('[data-upgrade]').forEach(b=>b.onclick=()=>{
+  const u=upgrades.find(x=>x.key===b.dataset.upgrade),lvl=state[u.key]||0,cost=u.base*(lvl+1);
+  if(lvl>=u.max||state.coins<cost){toast('No tienes monedas suficientes o ya alcanzaste el nivel máximo.');return}
+  state.coins-=cost;state[u.key]=(state[u.key]||0)+1;
+  if(u.key==='speedLevel')state.speed+=2.5;
+  if(u.key==='patienceLevel')state.guests.forEach(g=>{if(!g.ordered){g.orderTime+=6;g.orderMax+=6}});
+  hud();renderShop();toast(`¡${u.name} mejorada!`);
+ });
+ $('shopItems').querySelectorAll('[data-hire]').forEach(b=>b.onclick=()=>{
+  const h=hires.find(x=>x.key===b.dataset.hire),count=state.staff[h.key]||0,cost=h.base*(count+1);
+  if(count>=h.max||state.coins<cost){toast('No tienes monedas suficientes o ya completaste esta plantilla.');return}
+  state.coins-=cost;state.staff[h.key]++;syncStaffBots();draw();
+  if(h.key==='waiter')state.guests.forEach(g=>{if(!g.ordered){g.orderTime+=5;g.orderMax+=5}else{g.serviceTime+=5;g.serviceMax+=5}});
+  hud();renderShop();toast(`¡Contrataste ${h.name}! El personal ya está trabajando.`);
+ });
+ $('shopItems').querySelectorAll('[data-menu-unlock]').forEach(b=>b.onclick=()=>{const cat=b.dataset.menuUnlock;const pack=menuPacks.find(p=>p.category===cat);if(!pack||state.unlockedCategories.includes(cat)||state.coins<pack.cost)return;state.coins-=pack.cost;state.unlockedCategories.push(cat);hud();renderShop();toast(`¡Nuevo menú desbloqueado: ${cat}!`)});
+ $('shopItems').querySelectorAll('[data-restock]').forEach(b=>b.onclick=()=>{if(state.coins<45)return;state.coins-=45;Object.keys(state.inventory).forEach(k=>state.inventory[k]+=5);hud();renderShop();toast('¡Despensa repuesta! +5 unidades de cada ingrediente.')});
+}
+$('openShop').onclick=()=>{
+ if(state.playing&&!state.paused){state.paused=true;state.move={x:0,y:0};state.joystick={x:0,y:0};resetJoystick();state.keys={};Object.keys(pointerDirs).forEach(k=>delete pointerDirs[k]);draw();toast('Jornada pausada para visitar la tienda.')}
+ renderShop();$('shopModal').style.display='grid';
+};
+$('closeShop').onclick=()=>{$('shopModal').style.display='none';if(state.playing&&state.paused)toast('Cuando quieras, pulsa Continuar para volver al servicio.')};
+function openStart(){applyHand();state.playing=true;state.paused=false;state.combo=0;state.lastServeAt=0;state.elapsed=0;state.spawnClock=0;state.closing=false;state.closingNotified=false;state.dayFinishing=false;$('dayBell').style.display='none';state.guests=[];state.selectedId=null;state.plate=null;state.cooking=false;state.prepping=false;state.prepTargetId=null;state.preppedOrders=[];state.cookingDish=null;state.cookTargetId=null;state.readyPlates=[];state.botCookingIds=[];state.cleanPlates=Math.max(6,state.cleanPlates);state.dirtyPlates=0;state.dishwashClock=0;state.keys={};Object.keys(pointerDirs).forEach(k=>delete pointerDirs[k]);state.joystick={x:0,y:0};resetJoystick();state.move={x:0,y:0};state.x=45;state.y=69;syncStaffBots();refreshColliders();$('overlay').style.display='none';$('restaurantName').textContent=state.restaurant.toUpperCase();spawnGuest();setTimeout(()=>{if(state.playing&&!state.closing&&state.guests.length<12)spawnGuest()},4500);toast(`${state.restaurant} está abierto. ¡Buen servicio!`);draw()}
+let audioContext=null;
+function unlockAudio(){
+ try{const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return;if(!audioContext)audioContext=new Ctx();if(audioContext.state==='suspended')audioContext.resume()}catch(e){/* audio opcional */}
+}
+function playEntranceBell(){
+ try{
+  unlockAudio();if(!audioContext)return;const t=audioContext.currentTime;
+  [1046.5,1318.5].forEach((f,i)=>{const o=audioContext.createOscillator(),g=audioContext.createGain();o.type='sine';o.frequency.setValueAtTime(f,t+i*.12);g.gain.setValueAtTime(.0001,t+i*.12);g.gain.exponentialRampToValueAtTime(.09,t+i*.12+.025);g.gain.exponentialRampToValueAtTime(.0001,t+i*.12+.32);o.connect(g);g.connect(audioContext.destination);o.start(t+i*.12);o.stop(t+i*.12+.34)});
+  const door=$('entryDoor');if(door){door.classList.add('doorbell-active');setTimeout(()=>door.classList.remove('doorbell-active'),650)}
+ }catch(e){}
+}
+function playClosingBell(){
+ try{
+  unlockAudio();if(!audioContext)return;
+  const t=audioContext.currentTime;
+  [880,1174.66,1567.98].forEach((freq,i)=>{
+   const osc=audioContext.createOscillator(),gain=audioContext.createGain();
+   osc.type='sine';osc.frequency.setValueAtTime(freq,t+i*.18);
+   gain.gain.setValueAtTime(.0001,t+i*.18);gain.gain.exponentialRampToValueAtTime(.12,t+i*.18+.025);gain.gain.exponentialRampToValueAtTime(.0001,t+i*.18+.48);
+   osc.connect(gain);gain.connect(audioContext.destination);osc.start(t+i*.18);osc.stop(t+i*.18+.5);
+  });
+  if(navigator.vibrate)navigator.vibrate([90,55,130]);
+ }catch(e){/* si el navegador bloquea audio, el aviso visual sigue funcionando */}
+}
+function announceLastCall(){
+ $('dayBell').innerHTML='🌙 Últimos 10 segundos<br><small>Ya no entrarán más comensales. Termina los pedidos pendientes.</small>';
+ $('dayBell').style.display='block';
+ toast('Últimos 10 segundos: se cierra la entrada de nuevos clientes.');
+}
+function announceClosed(){
+ $('dayBell').innerHTML='🔔 ¡Restaurante cerrado!<br><small>Termina de atender a los comensales que ya están dentro.</small>';
+ $('dayBell').style.display='block';playClosingBell();
+ toast('🔔 ¡Se acabó la jornada! Puedes terminar los pedidos que quedan.');
+}
+function start(){unlockAudio();refreshColliders();state.keys={};Object.keys(pointerDirs).forEach(k=>delete pointerDirs[k]);state.move={x:0,y:0};state.restaurant=$('nameInput').value.trim()||'La Casa de Michi';state.chef.name=$('chefName').value.trim()||'Michi';state.chef.hat=$('hatSelect').value;state.dayLength=Number($('daySelect').value)||180;state.dominantHand=$('handSelect').value||'right';applyHand();openStart()}
+function endDay(){$('dayBell').style.display='none';state.playing=false;state.paused=false;state.move={x:0,y:0};let bonus=state.served*5+Math.floor(state.rep/5);let goalBonus=state.served>=state.goalTarget?state.goalReward:0;state.coins+=bonus+goalBonus;let modal=$('modal');modal.innerHTML=`<div class="logo">🌟 🐾 🌟</div><h1>DÍA ${state.day} COMPLETADO</h1><p>¡La jornada quedó cerrada!<br><b>${state.served}</b> pedidos entregados · <b>${state.missed}</b> clientes que se retiraron antes del cierre<br>Reputación: <b>${state.rep}/100</b><br>Bono de cierre: <b>+${bonus} monedas</b><br>Meta diaria: <b>${goalBonus?`¡completada! +${goalBonus} monedas`:'no completada'}</b><br>Saldo: <b>${state.coins} monedas</b></p><p>Tu restaurante sigue creciendo. Cada jornada es una nueva oportunidad.</p><button class="start" id="nextDay">ABRIR EL DÍA ${state.day+1}</button><button class="btn light" style="width:100%;margin-top:10px" id="backMenu">VOLVER A CONFIGURACIÓN</button>`;$('overlay').style.display='grid';$('nextDay').onclick=()=>{state.day++;state.served=0;state.missed=0;state.elapsed=0;state.guests=[];state.selectedId=null;state.plate=null;state.cooking=false;state.prepping=false;state.preppedOrders=[];state.readyPlates=[];state.botCookingIds=[];state.spawnClock=0;state.cleanPlates=Math.max(state.cleanPlates,5);state.dirtyPlates=0;openStart()};$('backMenu').onclick=()=>location.reload();hud()}
+function pause(){if(!state.playing)return;state.paused=!state.paused;state.move={x:0,y:0};state.joystick={x:0,y:0};resetJoystick();state.keys={};Object.keys(pointerDirs).forEach(k=>delete pointerDirs[k]);draw();toast(state.paused?'Jornada pausada.':'¡Seguimos atendiendo!')}
+function help(){toast('Usa un solo botón INTERACTUAR: acércate a cualquier mesa para tomar su pedido; después ve a PREPARACIÓN, cocina en ESTUFA u HORNO, recoge en VENTANILLA y entrega en esa mesa. Los platos usados van al RETORNO y luego al LAVAVAJILLAS. La tienda conserva mejoras, recetas, ingredientes y contrataciones.');}
+function openControlSettings(){state.settingsWasPaused=state.paused;if(state.playing&&!state.paused){state.paused=true;state.move={x:0,y:0};state.joystick={x:0,y:0};resetJoystick();state.keys={};draw()}$('handSelectLive').value=state.dominantHand;$('handModal').style.display='grid'}
+function closeControlSettings(apply=true){if(apply){state.dominantHand=$('handSelectLive').value||'right';$('handSelect').value=state.dominantHand;applyHand()}$('handModal').style.display='none';if(state.playing&&!state.settingsWasPaused){state.paused=false;toast('Controles actualizados. ¡Seguimos!')}draw()}
+$('start').onclick=start;$('ordersToggle').onclick=()=>{const bar=$('taskbar'),collapsed=bar.classList.toggle('collapsed');$('ordersToggle').textContent=collapsed?'>':'<';$('ordersToggle').setAttribute('aria-expanded',String(!collapsed));$('ordersToggle').title=collapsed?'Mostrar encargos':'Ocultar encargos'};$('contextActionBtn').onclick=contextAction;$('takeOrder').onclick=takeOrder;$('prepare').onclick=prepareIngredients;$('cook').onclick=cook;$('pickup').onclick=pickupDish;$('serve').onclick=serve;$('wash').onclick=washDishes;$('pause').onclick=pause;$('nextHelp').onclick=help;$('controlSettings').onclick=openControlSettings;$('closeHand').onclick=()=>closeControlSettings(false);$('saveHand').onclick=()=>closeControlSettings(true);$('closeMenu').onclick=()=>{$('menuModal').style.display='none';state.orderingGuestId=null};
+$('palette').querySelectorAll('[data-fur]').forEach(b=>b.onclick=()=>{$('palette').querySelectorAll('[data-fur]').forEach(x=>x.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');state.chef.fur=b.dataset.fur});
+// Joystick analógico: movimiento gradual en 360 grados, compatible con pantalla táctil.
+const keyDirs={ArrowUp:'up',w:'up',ArrowDown:'down',s:'down',ArrowLeft:'left',a:'left',ArrowRight:'right',d:'right'};const vector=dir=>({up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]}[dir]);
+const pointerDirs={};let joystickPointer=null;
+function recalcMove(){if(state.cooking||state.prepping||state.actionLock){state.move={x:0,y:0};return}let x=state.joystick.x||0,y=state.joystick.y||0;Object.keys(state.keys).forEach(k=>{let v=vector(state.keys[k]);if(v){x+=v[0];y+=v[1]}});const len=Math.hypot(x,y);if(len>1){x/=len;y/=len}state.move={x,y}}
+function resetJoystick(){const nub=$('joystickNub');if(nub)nub.style.transform='translate(-50%,-50%)';joystickPointer=null;state.joystick={x:0,y:0};recalcMove()}
+const joystickBase=$('joystickBase'),joystickNub=$('joystickNub');
+function moveJoystick(e){if(joystickPointer!==e.pointerId||!joystickBase)return;const r=joystickBase.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;let dx=e.clientX-cx,dy=e.clientY-cy;const max=r.width*.34,d=Math.hypot(dx,dy),scale=d>max?max/d:1;dx*=scale;dy*=scale;state.joystick={x:dx/max,y:dy/max};joystickNub.style.transform=`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px))`;recalcMove()}
+joystickBase.addEventListener('pointerdown',e=>{e.preventDefault();if(state.cooking||state.prepping||state.paused)return;joystickPointer=e.pointerId;joystickBase.setPointerCapture(e.pointerId);moveJoystick(e)});
+joystickBase.addEventListener('pointermove',e=>{if(joystickPointer===e.pointerId){e.preventDefault();moveJoystick(e)}});
+['pointerup','pointercancel','lostpointercapture'].forEach(ev=>joystickBase.addEventListener(ev,e=>{if(joystickPointer===e.pointerId)resetJoystick()}));
+document.addEventListener('keydown',e=>{let d=keyDirs[e.key];if(d){e.preventDefault();if(state.cooking||state.prepping)return;state.keys[e.key]=d;recalcMove()}});
+document.addEventListener('contextmenu',e=>{if(e.target.closest('#scene,.moveOverlay'))e.preventDefault()});document.addEventListener('keyup',e=>{if(keyDirs[e.key]){delete state.keys[e.key];recalcMove()}});window.addEventListener('blur',()=>{state.keys={};Object.keys(pointerDirs).forEach(k=>delete pointerDirs[k]);resetJoystick();recalcMove()});
+function loop(ts){
+ let dt=Math.min(.05,(ts-state.last)/1000||0);state.last=ts;
+ if(state.playing&&!state.paused){
+  const previousElapsed=state.elapsed;
+  state.elapsed=Math.min(state.dayLength,state.elapsed+dt);
+  state.spawnClock+=dt;
+
+  // A 10 segundos del cierre se bloquea la entrada de nuevos clientes.
+  if(!state.closing&&state.elapsed>=state.dayLength-10){
+   state.closing=true;state.closingNotified=true;announceLastCall();
+  }
+
+  // Movimiento con colisionadores: eje X y eje Y se resuelven por separado para deslizarse junto a muebles.
+  const m=(state.cooking||state.prepping||state.actionLock)?{x:0,y:0}:state.move;
+  if(m.x||m.y){
+   const len=Math.hypot(m.x,m.y),stepX=(m.x/len)*state.speed*dt,stepY=(m.y/len)*state.speed*dt;
+   const candidateX=Math.max(3.4,Math.min(97.2,state.x+stepX));
+   const candidateY=Math.max(7.0,Math.min(96.8,state.y+stepY));
+   if(!blocked(candidateX,state.y))state.x=candidateX;
+   if(!blocked(state.x,candidateY))state.y=candidateY;
+  }
+
+  if(!state.closing&&state.spawnClock>=11&&state.guests.length<12){state.spawnClock=0;spawnGuest()}
+  updateGuestMovement(dt);
+  botAI(dt);
+  if(state.prepping){state.prepRemaining-=dt;if(state.prepRemaining<=0){const id=state.prepTargetId;state.prepping=false;state.prepTargetId=null;state.preppingDish=null;if(state.guests.some(g=>g.id===id)){state.preppedOrders.push(id);toast('¡Ingredientes picados! Ahora ve a la estación indicada para cocinar.')}else{toast('El pedido se canceló.')}draw()}}
+  if(state.cooking){state.cookRemaining-=dt;if(state.cookRemaining<=0)finishCooking()}
+
+  // Antes de los últimos 10 segundos los clientes mantienen su paciencia. Desde el aviso de última llamada se congela:
+  // el jugador tiene tiempo para terminar exactamente la cola que quedó dentro.
+  if(!state.closing){
+   const departed=[];
+   state.guests.forEach(g=>{
+    // Primera cuenta: cuánto espera a que tomemos su pedido. Segunda: cuánto espera a recibirlo.
+    if(!g.ordered&&g.seated!==false)g.orderTime-=dt*Math.max(.6,1-state.staff.waiter*.06);
+    else g.serviceTime-=dt;
+    if((!g.ordered&&g.orderTime<=0)||(g.ordered&&g.serviceTime<=0))departed.push(g);
+   });
+   if(departed.length){
+    departed.forEach(g=>{state.missed++;state.rep=Math.max(0,state.rep-3);state.combo=0;const hadWindowPlate=state.readyPlates.some(p=>p.guestId===g.id);if(hadWindowPlate)state.dirtyPlates++;state.readyPlates=state.readyPlates.filter(p=>p.guestId!==g.id);state.preppedOrders=state.preppedOrders.filter(id=>id!==g.id);state.botCookingIds=state.botCookingIds.filter(id=>id!==g.id);if(state.plate?.guestId===g.id){state.plate=null;state.dirtyPlates++;}if(state.cookTargetId===g.id){state.cooking=false;state.cookingDish=null;state.cookTargetId=null;state.cleanPlates++;}if(state.prepTargetId===g.id){state.prepping=false;state.prepTargetId=null;state.preppingDish=null;}});
+    state.guests=state.guests.filter(g=>!departed.includes(g));
+    if(!selectedGuest())state.selectedId=state.guests[0]?.id||null;
+    toast(`${departed.map(g=>g.name).join(', ')} se retiró por tiempo agotado.`);draw();
+   }
+  }
+
+  // A cero: campana real/visual, cronómetro detenido y servicio final sin nuevos clientes.
+  if(previousElapsed<state.dayLength&&state.elapsed>=state.dayLength){
+   state.elapsed=state.dayLength;state.closing=true;state.dayFinishing=true;announceClosed();
+  }
+
+  if(state.dayFinishing&&state.guests.length===0&&!state.cooking&&!state.prepping&&!state.plate){endDay()}
+  if(Math.floor(state.elapsed*4)!==Math.floor(previousElapsed*4)){renderOrders();hud()}
+ }
+ cameraFollow();updateFrame();requestAnimationFrame(loop);
+}
+refreshColliders();window.addEventListener('resize',refreshColliders);draw();requestAnimationFrame(loop);
+})();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(err => console.warn('PWA offline cache:', err));
+  });
+}
+</script>
+
+</body></html>
+
+<style>
+/* V15.4: panel lateral simplificado */
+#panel{display:flex;flex-direction:column;align-content:start;justify-content:flex-start}
+#panel .dayCard{order:0}
+</style>
+
+<style>
+/* V15.5: Jornada integrada en el panel corredizo de encargos; cabecera verde retirada y panel lateral eliminado. */
+header{height:34px!important;min-height:34px!important;flex:0 0 34px!important;padding:3px 9px!important;background:var(--cream)!important;color:var(--ink)!important;border-bottom:1px solid var(--line);box-shadow:none!important}
+header .brand{display:none!important}
+header .stats{width:100%;justify-content:flex-end;gap:5px}
+header .stat{padding:4px 8px;background:#fffaf1;color:var(--ink);border:1px solid var(--line);font-size:10px}
+header .stat b{color:#94733c}
+#taskbar{gap:5px}
+#main{grid-template-columns:minmax(0,1fr)!important}
+#panel{display:none!important}
+.taskbarDayCard{display:grid!important;grid-template-columns:auto minmax(90px,1fr) auto;align-items:center;gap:9px;margin:0;padding:5px 9px;border:1px solid var(--line);border-radius:11px;background:#fffaf1;box-shadow:none;min-width:0}
+.taskbarDayCard h3{font-size:11px!important;margin:0!important;white-space:nowrap}
+.taskbarDayCard .infoLine{font-size:10px;min-width:0;gap:5px}
+.taskbarDayCard .infoLine span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.taskbarDayCard .meter{margin:0;height:6px;min-width:35px}
+.taskbarDayCard .mini{font-size:9px;white-space:nowrap;margin:0!important}
+#taskbar.collapsed .taskbarDayCard{display:none!important}
+@media(max-height:420px) and (orientation:landscape){header{height:30px!important;min-height:30px!important;flex-basis:30px!important;padding:2px 7px!important}.taskbarDayCard{padding:3px 7px;gap:6px}.taskbarDayCard h3{font-size:9px!important}.taskbarDayCard .infoLine,.taskbarDayCard .mini{font-size:8px}}
+</style>

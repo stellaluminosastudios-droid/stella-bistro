@@ -1,0 +1,9 @@
+STELLA BISTRO V15.5 — ENCARGOS Y JORNADA
+
+Cambios:
+- Jornada integrada en el panel corredizo de encargos; se oculta al plegar el panel.
+- Retirada la franja verde con el nombre STELLA BISTRO; se conserva la fila de estadísticas en fondo claro.
+- Se elimina el panel lateral vacío para que el restaurante aproveche todo el ancho.
+- Se conserva el resto de la estructura y lógica de V15.4.
+
+Publicación: reemplaza index.html y sw.js en tu proyecto de GitHub Pages. Conserva una copia de seguridad antes de publicar.
